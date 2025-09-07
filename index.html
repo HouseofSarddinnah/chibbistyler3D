@@ -2,85 +2,174 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ChibiStyle3D</title>
+    <title>ChibiStyler3D Portfolio</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
-            text-align: center;
-            padding: 40px;
+            margin: 0;
+            padding: 0;
             color: #333;
         }
+
         header {
-            margin-bottom: 40px;
+            background-color: #6a0dad;
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
         }
-        h1 {
-            color: #6a0dad;
+
+        header h1 {
+            margin: 0;
             font-size: 48px;
         }
-        p {
-            font-size: 18px;
-            margin: 10px 0 20px;
+
+        nav {
+            background-color: #4b0070;
+            padding: 10px 40px;
+            display: flex;
+            justify-content: center;
         }
+
+        nav select {
+            font-size: 16px;
+            padding: 5px;
+            margin: 0 10px;
+        }
+
         section {
+            padding: 40px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #6a0dad;
             margin-bottom: 30px;
         }
+
+        .character-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
         .character {
-            display: inline-block;
-            margin: 10px;
-            padding: 15px;
+            background-color: white;
             border: 2px solid #6a0dad;
             border-radius: 10px;
-            background-color: #fff;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .character h3 {
-            margin: 5px 0;
+
+        .character:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
+
+        .character img {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .projects {
+            text-align: center;
+        }
+
+        .projects a {
+            display: inline-block;
+            margin: 10px 20px;
+            padding: 10px 20px;
+            background-color: #6a0dad;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .projects a:hover {
+            background-color: #4b0070;
+        }
+
         footer {
-            margin-top: 50px;
-            font-size: 14px;
-            color: #777;
+            background-color: #4b0070;
+            color: white;
+            text-align: center;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to ChibiStyle3D</h1>
-        <p>Explore my 3D designs and projects!</p>
-    </header>
 
-    <section>
-        <h2>Character Designs</h2>
-        
+<header>
+    <h1>Welcome to ChibiStyler3D</h1>
+</header>
+
+<nav>
+    <select onchange="navigateSection(this.value)">
+        <option value="">Navigate</option>
+        <option value="characters">Characters</option>
+        <option value="projects">Projects</option>
+        <option value="about">About</option>
+    </select>
+</nav>
+
+<section id="characters">
+    <h2>Character Designs</h2>
+    <div class="character-grid">
         <div class="character">
-            <h3>Chibi Character 1</h3>
+            <h3>Chibi 1</h3>
             <p>Eye Color: Blue</p>
             <p>Eyewear: Glasses</p>
         </div>
 
         <div class="character">
-            <h3>Chibi Character 2</h3>
+            <h3>Chibi 2</h3>
             <p>Eye Color: Green</p>
             <p>Eyewear: Sunglasses</p>
         </div>
 
         <div class="character">
-            <h3>Chibi Character 3</h3>
+            <h3>Chibi 3</h3>
             <p>Eye Color: Brown</p>
             <p>Eyewear: None</p>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section>
-        <h2>Other Projects</h2>
-        <p>Check out my GitHub repositories:</p>
+<section id="projects">
+    <h2>Other Projects</h2>
+    <p>Check out my GitHub repositories:</p>
+    <div class="projects">
         <a href="https://github.com/houseofsarddinnah/chibbistyler3D" target="_blank">View Main Repo</a>
-    </section>
+    </div>
+</section>
 
-    <footer>
-        &copy; 2025 ChibiStyle3D. All rights reserved.
-    </footer>
+<section id="about">
+    <h2>About ChibiStyler3D</h2>
+    <p>This is my portfolio showcasing Chibi 3D characters. Each character shows unique features like eye color and eyewear.</p>
+</section>
+
+<footer>
+    &copy; 2025 ChibiStyler3D. All rights reserved.
+</footer>
+
+<script>
+    function navigateSection(sectionId) {
+        if (!sectionId) return;
+        const section = document.getElementById(sectionId);
+        if (section) {
+            window.scrollTo({
+                top: section.offsetTop - 50,
+                behavior: 'smooth'
+            });
+        }
+    }
+</script>
+
 </body>
 </html>
-
-
