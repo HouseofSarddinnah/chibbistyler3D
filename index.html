@@ -1,174 +1,222 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>ChibiStyler3D Portfolio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
+<meta charset="UTF-8">
+<title>Chibi Prompt Generator</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
 
-        header {
-            background-color: #6a0dad;
-            color: white;
-            padding: 20px 40px;
-            text-align: center;
-        }
+header {
+    background-color: #6a0dad;
+    color: white;
+    text-align: center;
+    padding: 20px 40px;
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 48px;
-        }
+header h1 {
+    margin: 0;
+    font-size: 48px;
+}
 
-        nav {
-            background-color: #4b0070;
-            padding: 10px 40px;
-            display: flex;
-            justify-content: center;
-        }
+section {
+    padding: 30px 40px;
+    max-width: 900px;
+    margin: auto;
+    background-color: white;
+    border-radius: 10px;
+    margin-top: 20px;
+}
 
-        nav select {
-            font-size: 16px;
-            padding: 5px;
-            margin: 0 10px;
-        }
+h2 {
+    text-align: center;
+    color: #6a0dad;
+    margin-bottom: 20px;
+}
 
-        section {
-            padding: 40px;
-            max-width: 1000px;
-            margin: auto;
-        }
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
 
-        h2 {
-            text-align: center;
-            color: #6a0dad;
-            margin-bottom: 30px;
-        }
+select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
 
-        .character-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #6a0dad;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
 
-        .character {
-            background-color: white;
-            border: 2px solid #6a0dad;
-            border-radius: 10px;
-            padding: 20px;
-            width: 200px;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+button:hover {
+    background-color: #4b0070;
+}
 
-        .character:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .character img {
-            width: 100%;
-            border-radius: 5px;
-        }
-
-        .projects {
-            text-align: center;
-        }
-
-        .projects a {
-            display: inline-block;
-            margin: 10px 20px;
-            padding: 10px 20px;
-            background-color: #6a0dad;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .projects a:hover {
-            background-color: #4b0070;
-        }
-
-        footer {
-            background-color: #4b0070;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-    </style>
+#output {
+    margin-top: 25px;
+    padding: 15px;
+    border: 2px dashed #6a0dad;
+    border-radius: 10px;
+    background-color: #f9f0ff;
+    font-weight: bold;
+}
+</style>
 </head>
 <body>
 
 <header>
-    <h1>Welcome to ChibiStyler3D</h1>
+    <h1>Chibi Prompt Generator</h1>
 </header>
 
-<nav>
-    <select onchange="navigateSection(this.value)">
-        <option value="">Navigate</option>
-        <option value="characters">Characters</option>
-        <option value="projects">Projects</option>
-        <option value="about">About</option>
+<section>
+    <h2>Customize Your Chibi</h2>
+    
+    <label for="hairStyle">Hair Style:</label>
+    <select id="hairStyle">
+        <option value="">Select Hair Style</option>
+        <option value="long straight hair">Long Straight Hair</option>
+        <option value="short wavy hair">Short Wavy Hair</option>
+        <option value="ponytail">Ponytail</option>
+        <option value="braided hair">Braided Hair</option>
+        <option value="spiky hair">Spiky Hair</option>
     </select>
-</nav>
-
-<section id="characters">
-    <h2>Character Designs</h2>
-    <div class="character-grid">
-        <div class="character">
-            <h3>Chibi 1</h3>
-            <p>Eye Color: Blue</p>
-            <p>Eyewear: Glasses</p>
-        </div>
-
-        <div class="character">
-            <h3>Chibi 2</h3>
-            <p>Eye Color: Green</p>
-            <p>Eyewear: Sunglasses</p>
-        </div>
-
-        <div class="character">
-            <h3>Chibi 3</h3>
-            <p>Eye Color: Brown</p>
-            <p>Eyewear: None</p>
-        </div>
-    </div>
+    
+    <label for="hairColor">Hair Color:</label>
+    <select id="hairColor">
+        <option value="">Select Hair Color</option>
+        <option value="black">Black</option>
+        <option value="brown">Brown</option>
+        <option value="blonde">Blonde</option>
+        <option value="red">Red</option>
+        <option value="pink">Pink</option>
+        <option value="blue">Blue</option>
+    </select>
+    
+    <label for="eyeColor">Eye Color:</label>
+    <select id="eyeColor">
+        <option value="">Select Eye Color</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="brown">Brown</option>
+        <option value="hazel">Hazel</option>
+        <option value="purple">Purple</option>
+    </select>
+    
+    <label for="eyewear">Eyewear:</label>
+    <select id="eyewear">
+        <option value="">Select Eyewear</option>
+        <option value="glasses">Glasses</option>
+        <option value="sunglasses">Sunglasses</option>
+        <option value="monocle">Monocle</option>
+        <option value="none">None</option>
+    </select>
+    
+    <label for="faceExpression">Face Expression:</label>
+    <select id="faceExpression">
+        <option value="">Select Expression</option>
+        <option value="happy">Happy</option>
+        <option value="sad">Sad</option>
+        <option value="angry">Angry</option>
+        <option value="shy">Shy</option>
+        <option value="excited">Excited</option>
+    </select>
+    
+    <label for="outfit">Outfit:</label>
+    <select id="outfit">
+        <option value="">Select Outfit</option>
+        <option value="casual clothes">Casual Clothes</option>
+        <option value="school uniform">School Uniform</option>
+        <option value="armor">Armor</option>
+        <option value="formal dress">Formal Dress</option>
+        <option value="fantasy costume">Fantasy Costume</option>
+    </select>
+    
+    <label for="shoes">Shoes:</label>
+    <select id="shoes">
+        <option value="">Select Shoes</option>
+        <option value="sneakers">Sneakers</option>
+        <option value="boots">Boots</option>
+        <option value="sandals">Sandals</option>
+        <option value="dress shoes">Dress Shoes</option>
+    </select>
+    
+    <label for="skinTone">Skin Tone:</label>
+    <select id="skinTone">
+        <option value="">Select Skin Tone</option>
+        <option value="light">Light</option>
+        <option value="medium">Medium</option>
+        <option value="dark">Dark</option>
+        <option value="olive">Olive</option>
+    </select>
+    
+    <label for="ethnicity">Ethnicity:</label>
+    <select id="ethnicity">
+        <option value="">Select Ethnicity</option>
+        <option value="Asian">Asian</option>
+        <option value="Caucasian">Caucasian</option>
+        <option value="African">African</option>
+        <option value="Hispanic">Hispanic</option>
+        <option value="Mixed">Mixed</option>
+    </select>
+    
+    <label for="pose">Pose:</label>
+    <select id="pose">
+        <option value="">Select Pose</option>
+        <option value="standing">Standing</option>
+        <option value="sitting">Sitting</option>
+        <option value="jumping">Jumping</option>
+        <option value="running">Running</option>
+    </select>
+    
+    <button onclick="generatePrompt()">Generate Prompt</button>
+    
+    <div id="output">Your generated prompt will appear here.</div>
 </section>
-
-<section id="projects">
-    <h2>Other Projects</h2>
-    <p>Check out my GitHub repositories:</p>
-    <div class="projects">
-        <a href="https://github.com/houseofsarddinnah/chibbistyler3D" target="_blank">View Main Repo</a>
-    </div>
-</section>
-
-<section id="about">
-    <h2>About ChibiStyler3D</h2>
-    <p>This is my portfolio showcasing Chibi 3D characters. Each character shows unique features like eye color and eyewear.</p>
-</section>
-
-<footer>
-    &copy; 2025 ChibiStyler3D. All rights reserved.
-</footer>
 
 <script>
-    function navigateSection(sectionId) {
-        if (!sectionId) return;
-        const section = document.getElementById(sectionId);
-        if (section) {
-            window.scrollTo({
-                top: section.offsetTop - 50,
-                behavior: 'smooth'
-            });
-        }
-    }
+function generatePrompt() {
+    const traits = [
+        {id: "hairStyle", label: "Hair Style"},
+        {id: "hairColor", label: "Hair Color"},
+        {id: "eyeColor", label: "Eye Color"},
+        {id: "eyewear", label: "Eyewear"},
+        {id: "faceExpression", label: "Face Expression"},
+        {id: "outfit", label: "Outfit"},
+        {id: "shoes", label: "Shoes"},
+        {id: "skinTone", label: "Skin Tone"},
+        {id: "ethnicity", label: "Ethnicity"},
+        {id: "pose", label: "Pose"}
+    ];
+    
+    let prompt = "Chibi character with ";
+    
+    traits.forEach(trait => {
+        const val = document.getElementById(trait.id).value;
+        if(val) prompt += val + ", ";
+    });
+    
+    // Remove trailing comma and space
+    prompt = prompt.replace(/, $/, "");
+    
+    document.getElementById("output").innerText = prompt;
+}
 </script>
 
 </body>
