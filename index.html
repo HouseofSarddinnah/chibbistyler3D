@@ -1,160 +1,63 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>ChibiStyler3D Portfolio & Prompt Generator</title>
+<title>Chibi Prompt Generator</title>
 <style>
 :root {
     --primary-color: #6a0dad; /* Purple */
-    --secondary-color: #39ff14; /* Neon Green */
-    --accent-color: #00ffff; /* Neon Blue */
-    --background-color: #0a0a0a; /* Dark background */
-    --card-background: #1a1a1a;
+    --accent-color: #ff69b4;  /* Soft pink accent */
+    --button-gradient: linear-gradient(90deg, #6a0dad, #ff69b4);
+    --background-color: #1e1e1e; /* Dark background for bio view */
+    --card-background: #2a2a2a;
     --text-color: #ffffff;
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 20px;
     background-color: var(--background-color);
     color: var(--text-color);
 }
 
-header {
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
-    color: white;
+h1 {
     text-align: center;
-    padding: 25px 0;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-}
-
-header h1 {
-    margin: 0;
-    font-size: 48px;
-    font-weight: 700;
-    text-shadow: 0 0 10px #fff, 0 0 20px #ff0, 0 0 30px #0ff;
-}
-
-nav {
-    display: flex;
-    justify-content: center;
-    padding: 15px;
-    background-color: var(--accent-color);
-}
-
-nav select {
-    font-size: 16px;
-    padding: 7px;
-    margin: 0 10px;
-    border-radius: 10px;
-    border: 2px solid var(--secondary-color);
-    background-color: #111;
-    color: #fff;
-    outline: none;
-}
-
-section {
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 30px;
-    background-color: var(--card-background);
-    border-radius: 15px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
-}
-
-h2 {
-    text-align: center;
-    color: var(--secondary-color);
+    font-size: 42px;
+    color: var(--primary-color);
     margin-bottom: 30px;
     text-shadow: 0 0 5px #fff;
 }
 
-.character-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-.character {
-    background-color: #222;
-    border: 2px solid var(--primary-color);
-    border-radius: 15px;
-    padding: 20px;
-    width: 220px;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.character:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(255,255,255,0.3);
-}
-
-.character img {
-    width: 100%;
-    border-radius: 10px;
-}
-
-.character h3 {
-    margin: 10px 0 5px 0;
-    color: var(--secondary-color);
-}
-
-.character p {
-    margin: 5px 0;
-}
-
-.projects {
-    text-align: center;
-}
-
-.projects a {
-    display: inline-block;
-    margin: 10px 15px;
-    padding: 12px 22px;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    font-weight: 600;
-    transition: background 0.3s;
-}
-
-.projects a:hover {
-    background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
-    color: #000;
-}
-
-#prompt-section label {
+label {
     display: block;
     margin-top: 15px;
     font-weight: bold;
     color: var(--accent-color);
 }
 
-#prompt-section select {
+select {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
     border-radius: 12px;
-    border: 2px solid var(--secondary-color);
+    border: 2px solid var(--primary-color);
     background-color: #111;
     color: #fff;
-    outline: none;
     font-weight: bold;
+    outline: none;
 }
 
 button {
-    margin-top: 20px;
-    padding: 12px 25px;
+    margin-top: 15px;
+    padding: 12px 20px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: bold;
     cursor: pointer;
     border: none;
     border-radius: 12px;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+    background: var(--button-gradient);
     color: #fff;
     transition: all 0.3s;
     text-shadow: 0 0 5px #fff;
@@ -162,14 +65,22 @@ button {
 
 button:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 10px var(--secondary-color), 0 0 20px var(--accent-color);
+    box-shadow: 0 0 10px #ff69b4, 0 0 20px #6a0dad;
     color: #000;
+}
+
+#buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: center;
 }
 
 #output {
     margin-top: 25px;
     padding: 20px;
-    border: 2px dashed var(--secondary-color);
+    border: 2px dashed var(--primary-color);
     border-radius: 15px;
     background-color: #111;
     font-weight: bold;
@@ -178,201 +89,194 @@ button:hover {
     color: var(--accent-color);
     font-size: 18px;
 }
-
-footer {
-    margin-top: 40px;
-    background-color: var(--primary-color);
-    color: white;
-    text-align: center;
-    padding: 25px 0;
-    text-shadow: 0 0 5px #fff;
-}
 </style>
 </head>
 <body>
 
-<header>
-    <h1>ChibiStyler3D</h1>
-</header>
+<h1>Chibi Prompt Generator</h1>
 
-<nav>
-    <select onchange="navigateSection(this.value)">
-        <option value="">Navigate</option>
-        <option value="characters">Characters</option>
-        <option value="projects">Projects</option>
-        <option value="prompt-section">Prompt Generator</option>
-    </select>
-</nav>
+<!-- Dropdowns -->
+<label for="gender">Gender:</label>
+<select id="gender">
+    <option value="">Select Gender</option>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="non-binary">Non-binary</option>
+</select>
 
-<section id="characters">
-    <h2>Character Designs</h2>
-    <div class="character-grid">
-        <div class="character">
-            <h3>Chibi 1</h3>
-            <p>Eye Color: Blue</p>
-            <p>Eyewear: Glasses</p>
-        </div>
-        <div class="character">
-            <h3>Chibi 2</h3>
-            <p>Eye Color: Green</p>
-            <p>Eyewear: Sunglasses</p>
-        </div>
-        <div class="character">
-            <h3>Chibi 3</h3>
-            <p>Eye Color: Brown</p>
-            <p>Eyewear: None</p>
-        </div>
-    </div>
-</section>
+<label for="ethnicity">Ethnicity:</label>
+<select id="ethnicity">
+    <option value="">Select Ethnicity</option>
+    <option value="asian">Asian</option>
+    <option value="caucasian">Caucasian</option>
+    <option value="african">African</option>
+    <option value="hispanic">Hispanic</option>
+    <option value="mixed">Mixed</option>
+</select>
 
-<section id="projects">
-    <h2>Other Projects</h2>
-    <div class="projects">
-        <a href="https://github.com/houseofsarddinnah/chibbistyler3D" target="_blank">View Main Repo</a>
-    </div>
-</section>
+<label for="hairStyle">Hair Style:</label>
+<select id="hairStyle">
+    <option value="">Select Hair Style</option>
+    <option value="long straight hair">Long Straight</option>
+    <option value="short wavy hair">Short Wavy</option>
+    <option value="ponytail">Ponytail</option>
+    <option value="braided hair">Braided</option>
+    <option value="spiky hair">Spiky</option>
+</select>
 
-<section id="prompt-section">
-    <h2>Chibi Prompt Generator</h2>
+<label for="hairColor">Hair Color:</label>
+<select id="hairColor">
+    <option value="">Select Hair Color</option>
+    <option value="black">Black</option>
+    <option value="brown">Brown</option>
+    <option value="blonde">Blonde</option>
+    <option value="red">Red</option>
+    <option value="pink">Pink</option>
+    <option value="blue">Blue</option>
+    <option value="green">Green</option>
+    <option value="purple">Purple</option>
+</select>
 
-    <label for="gender">Gender:</label>
-    <select id="gender">
-        <option value="">Select Gender</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="non-binary">Non-binary</option>
-    </select>
+<label for="eyeColor">Eye Color:</label>
+<select id="eyeColor">
+    <option value="">Select Eye Color</option>
+    <option value="blue">Blue</option>
+    <option value="green">Green</option>
+    <option value="brown">Brown</option>
+    <option value="hazel">Hazel</option>
+    <option value="purple">Purple</option>
+</select>
 
-    <label for="ethnicity">Ethnicity:</label>
-    <select id="ethnicity">
-        <option value="">Select Ethnicity</option>
-        <option value="asian">Asian</option>
-        <option value="caucasian">Caucasian</option>
-        <option value="african">African</option>
-        <option value="hispanic">Hispanic</option>
-        <option value="mixed">Mixed</option>
-    </select>
+<label for="eyewear">Eyewear:</label>
+<select id="eyewear">
+    <option value="">Select Eyewear</option>
+    <option value="glasses">Glasses</option>
+    <option value="sunglasses">Sunglasses</option>
+    <option value="monocle">Monocle</option>
+    <option value="none">None</option>
+</select>
 
-    <label for="hairStyle">Hair Style:</label>
-    <select id="hairStyle">
-        <option value="">Select Hair Style</option>
-        <option value="long straight hair">Long Straight Hair</option>
-        <option value="short wavy hair">Short Wavy Hair</option>
-        <option value="ponytail">Ponytail</option>
-        <option value="braided hair">Braided Hair</option>
-        <option value="spiky hair">Spiky Hair</option>
-    </select>
+<label for="eyewearColor">Eyewear Color:</label>
+<select id="eyewearColor">
+    <option value="">Select Eyewear Color</option>
+    <option value="black">Black</option>
+    <option value="brown">Brown</option>
+    <option value="gold">Gold</option>
+    <option value="silver">Silver</option>
+    <option value="red">Red</option>
+    <option value="blue">Blue</option>
+</select>
 
-    <label for="hairColor">Hair Color:</label>
-    <select id="hairColor">
-        <option value="">Select Hair Color</option>
-        <option value="black">Black</option>
-        <option value="brown">Brown</option>
-        <option value="blonde">Blonde</option>
-        <option value="red">Red</option>
-        <option value="pink">Pink</option>
-        <option value="blue">Blue</option>
-    </select>
+<label for="faceExpression">Face Expression:</label>
+<select id="faceExpression">
+    <option value="">Select Expression</option>
+    <option value="happy">Happy</option>
+    <option value="sad">Sad</option>
+    <option value="angry">Angry</option>
+    <option value="shy">Shy</option>
+    <option value="excited">Excited</option>
+</select>
 
-    <label for="eyeColor">Eye Color:</label>
-    <select id="eyeColor">
-        <option value="">Select Eye Color</option>
-        <option value="blue">Blue</option>
-        <option value="green">Green</option>
-        <option value="brown">Brown</option>
-        <option value="hazel">Hazel</option>
-        <option value="purple">Purple</option>
-    </select>
+<label for="outfit">Outfit:</label>
+<select id="outfit">
+    <option value="">Select Outfit</option>
+    <option value="casual clothes">Casual Clothes</option>
+    <option value="school uniform">School Uniform</option>
+    <option value="armor">Armor</option>
+    <option value="formal dress">Formal Dress</option>
+    <option value="fantasy costume">Fantasy Costume</option>
+</select>
 
-    <label for="eyewear">Eyewear:</label>
-    <select id="eyewear">
-        <option value="">Select Eyewear</option>
-        <option value="glasses">Glasses</option>
-        <option value="sunglasses">Sunglasses</option>
-        <option value="monocle">Monocle</option>
-        <option value="none">None</option>
-    </select>
+<label for="outfitColor">Outfit Color:</label>
+<select id="outfitColor">
+    <option value="">Select Outfit Color</option>
+    <option value="black">Black</option>
+    <option value="white">White</option>
+    <option value="red">Red</option>
+    <option value="blue">Blue</option>
+    <option value="green">Green</option>
+    <option value="yellow">Yellow</option>
+    <option value="pink">Pink</option>
+</select>
 
-    <label for="faceExpression">Face Expression:</label>
-    <select id="faceExpression">
-        <option value="">Select Expression</option>
-        <option value="happy">Happy</option>
-        <option value="sad">Sad</option>
-        <option value="angry">Angry</option>
-        <option value="shy">Shy</option>
-        <option value="excited">Excited</option>
-    </select>
+<label for="shoes">Shoes:</label>
+<select id="shoes">
+    <option value="">Select Shoes</option>
+    <option value="sneakers">Sneakers</option>
+    <option value="boots">Boots</option>
+    <option value="sandals">Sandals</option>
+    <option value="dress shoes">Dress Shoes</option>
+</select>
 
-    <label for="outfit">Outfit:</label>
-    <select id="outfit">
-        <option value="">Select Outfit</option>
-        <option value="casual clothes">Casual Clothes</option>
-        <option value="school uniform">School Uniform</option>
-        <option value="armor">Armor</option>
-        <option value="formal dress">Formal Dress</option>
-        <option value="fantasy costume">Fantasy Costume</option>
-    </select>
+<label for="shoesColor">Shoe Color:</label>
+<select id="shoesColor">
+    <option value="">Select Shoe Color</option>
+    <option value="black">Black</option>
+    <option value="white">White</option>
+    <option value="red">Red</option>
+    <option value="blue">Blue</option>
+    <option value="green">Green</option>
+    <option value="brown">Brown</option>
+</select>
 
-    <label for="shoes">Shoes:</label>
-    <select id="shoes">
-        <option value="">Select Shoes</option>
-        <option value="sneakers">Sneakers</option>
-        <option value="boots">Boots</option>
-        <option value="sandals">Sandals</option>
-        <option value="dress shoes">Dress Shoes</option>
-    </select>
+<label for="pose">Pose:</label>
+<select id="pose">
+    <option value="">Select Pose</option>
+    <option value="standing">Standing</option>
+    <option value="sitting">Sitting</option>
+    <option value="jumping">Jumping</option>
+    <option value="action">Action</option>
+</select>
 
-    <label for="pose">Pose:</label>
-    <select id="pose">
-        <option value="">Select Pose</option>
-        <option value="standing">Standing</option>
-        <option value="sitting">Sitting</option>
-        <option value="jumping">Jumping</option>
-        <option value="action">Action</option>
-    </select>
+<label for="background">Background:</label>
+<select id="background">
+    <option value="">Select Background</option>
+    <option value="city">City</option>
+    <option value="nature">Nature</option>
+    <option value="space">Space</option>
+    <option value="studio">Studio</option>
+</select>
 
-    <label for="background">Background:</label>
-    <select id="background">
-        <option value="">Select Background</option>
-        <option value="city">City</option>
-        <option value="nature">Nature</option>
-        <option value="space">Space</option>
-        <option value="studio">Studio</option>
-    </select>
+<label for="accessories">Accessories:</label>
+<select id="accessories">
+    <option value="">Select Accessories</option>
+    <option value="hat">Hat</option>
+    <option value="scarf">Scarf</option>
+    <option value="backpack">Backpack</option>
+    <option value="jewelry">Jewelry</option>
+</select>
 
-    <label for="accessories">Accessories:</label>
-    <select id="accessories">
-        <option value="">Select Accessories</option>
-        <option value="hat">Hat</option>
-        <option value="scarf">Scarf</option>
-        <option value="backpack">Backpack</option>
-        <option value="jewelry">Jewelry</option>
-    </select>
+<label for="accessoryColor">Accessory Color:</label>
+<select id="accessoryColor">
+    <option value="">Select Accessory Color</option>
+    <option value="gold">Gold</option>
+    <option value="silver">Silver</option>
+    <option value="red">Red</option>
+    <option value="blue">Blue</option>
+    <option value="green">Green</option>
+    <option value="black">Black</option>
+</select>
 
-    <div style="display:flex; flex-wrap: wrap; gap: 15px; margin-top:20px;">
-        <button onclick="generatePrompt()">Copy Prompt</button>
-        <button onclick="changePose()">Change Pose Only</button>
-        <button onclick="changeClothes()">Change Clothes Only</button>
-        <button onclick="randomizeAll()">Randomize All</button>
-        <button onclick="clearAll()">Clear All</button>
-    </div>
+<!-- Buttons -->
+<div id="buttons">
+    <button onclick="generatePrompt()">Copy Prompt</button>
+    <button onclick="changePose()">Change Pose Only</button>
+    <button onclick="changeClothes()">Change Clothes Only</button>
+    <button onclick="randomizeAll()">Randomize All</button>
+    <button onclick="clearAll()">Clear All</button>
+</div>
 
-    <div id="output">Your prompt will appear here...</div>
-</section>
-
-<footer>
-    &copy; 2025 ChibiStyler3D. All rights reserved.
-</footer>
+<!-- Output -->
+<div id="output">Your prompt will appear here...</div>
 
 <script>
-function navigateSection(id) {
-    if(!id) return;
-    document.getElementById(id).scrollIntoView({behavior:'smooth'});
-}
-
-// Generate prompt
+// Generate full prompt
 function generatePrompt() {
-    const fields = ['gender','ethnicity','hairStyle','hairColor','eyeColor','eyewear','faceExpression','outfit','shoes','pose','background','accessories'];
+    const fields = [
+        'gender','ethnicity','hairStyle','hairColor','eyeColor',
+        'eyewear','eyewearColor','faceExpression','outfit','outfitColor',
+        'shoes','shoesColor','pose','background','accessories','accessoryColor'
+    ];
     let prompt = '';
     fields.forEach(f=>{
         const val = document.getElementById(f).value;
@@ -383,6 +287,7 @@ function generatePrompt() {
     copyToClipboard(prompt);
 }
 
+// Copy to clipboard
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(()=>alert('Prompt copied!'));
 }
@@ -396,9 +301,13 @@ function changePose() {
 
 function changeClothes() {
     const outfits = ['casual clothes','school uniform','armor','formal dress','fantasy costume'];
+    const outfitColors = ['black','white','red','blue','green','yellow','pink'];
     const shoes = ['sneakers','boots','sandals','dress shoes'];
+    const shoesColors = ['black','white','red','blue','green','brown'];
     document.getElementById('outfit').value = outfits[Math.floor(Math.random()*outfits.length)];
+    document.getElementById('outfitColor').value = outfitColors[Math.floor(Math.random()*outfitColors.length)];
     document.getElementById('shoes').value = shoes[Math.floor(Math.random()*shoes.length)];
+    document.getElementById('shoesColor').value = shoesColors[Math.floor(Math.random()*shoesColors.length)];
     generatePrompt();
 }
 
@@ -407,15 +316,19 @@ function randomizeAll() {
         gender:['male','female','non-binary'],
         ethnicity:['asian','caucasian','african','hispanic','mixed'],
         hairStyle:['long straight hair','short wavy hair','ponytail','braided hair','spiky hair'],
-        hairColor:['black','brown','blonde','red','pink','blue'],
+        hairColor:['black','brown','blonde','red','pink','blue','green','purple'],
         eyeColor:['blue','green','brown','hazel','purple'],
         eyewear:['glasses','sunglasses','monocle','none'],
+        eyewearColor:['black','brown','gold','silver','red','blue'],
         faceExpression:['happy','sad','angry','shy','excited'],
         outfit:['casual clothes','school uniform','armor','formal dress','fantasy costume'],
+        outfitColor:['black','white','red','blue','green','yellow','pink'],
         shoes:['sneakers','boots','sandals','dress shoes'],
+        shoesColor:['black','white','red','blue','green','brown'],
         pose:['standing','sitting','jumping','action'],
         background:['city','nature','space','studio'],
-        accessories:['hat','scarf','backpack','jewelry']
+        accessories:['hat','scarf','backpack','jewelry'],
+        accessoryColor:['gold','silver','red','blue','green','black']
     };
     for(let key in options){
         const arr = options[key];
@@ -425,7 +338,11 @@ function randomizeAll() {
 }
 
 function clearAll(){
-    const fields = ['gender','ethnicity','hairStyle','hairColor','eyeColor','eyewear','faceExpression','outfit','shoes','pose','background','accessories'];
+    const fields = [
+        'gender','ethnicity','hairStyle','hairColor','eyeColor',
+        'eyewear','eyewearColor','faceExpression','outfit','outfitColor',
+        'shoes','shoesColor','pose','background','accessories','accessoryColor'
+    ];
     fields.forEach(f=>document.getElementById(f).value='');
     document.getElementById('output').innerText='Your prompt will appear here...';
 }
