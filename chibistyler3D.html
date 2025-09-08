@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ChibiStyler 3D Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #fce4ec, #f3e5f5);
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #d81b60;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+    select, input[type="range"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    #output {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+    button {
+      background-color: #d81b60;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    button:hover {
+      background-color: #c2185b;
+    }
+  </style>
+</head>
+<body>
+
+<h1>✨ ChibiStyler 3D Generator ✨</h1>
+
+<form id="chibiForm">
+  <label>Skin Tone</label>
+  <select id="skinTone">
+    <option value="caramel">Caramel</option>
+    <option value="chocolate">Chocolate</option>
+    <option value="olive">Olive</option>
+    <option value="fair">Fair</option>
+    <option value="tan">Tan</option>
+    <option value="Asian">Asian</option>
+    <option value="Hispanic">Hispanic</option>
+    <option value="African American">African American</option>
+    <option value="European">European</option>
+  </select>
+
+  <label>Hair Style</label>
+  <select id="hairStyle">
+    <option value="curly buns">Curly buns</option>
+    <option value="braids">Braids</option>
+    <option value="high ponytail">High ponytail</option>
+    <option value="pixie cut">Pixie cut</option>
+    <option value="bob">Bob</option>
+    <option value="long straight">Long straight</option>
+    <option value="space buns">Space buns</option>
+  </select>
+
+  <label>Eye Size</label>
+  <input type="range" id="eyeSize" min="1" max="10" value="7">
+
+  <label>Lip Fullness</label>
+  <input type="range" id="lipFullness" min="1" max="10" value="8">
+
+  <label>Glossiness</label>
+  <input type="range" id="glossiness" min="1" max="10" value="9">
+
+  <label>Outfit</label>
+  <select id="outfit">
+    <option value="pink crop top and ripped jeans">Pink crop top and ripped jeans</option>
+    <option value="fur jacket and mini skirt">Fur jacket and mini skirt</option>
+    <option value="hoodie and cargo pants">Hoodie and cargo pants</option>
+    <option value="varsity jacket and joggers">Varsity jacket and joggers</option>
+  </select>
+
+  <label>Accessories</label>
+  <select id="accessories">
+    <option value="hoop earrings and smartphone">Hoop earrings and smartphone</option>
+    <option value="sunglasses and nail art">Sunglasses and nail art</option>
+    <option value="headphones and handbag">Headphones and handbag</option>
+    <option value="choker and layered bracelets">Choker and layered bracelets</option>
+  </select>
+
+  <label>Pose</label>
+  <select id="pose">
+    <option value="selfie mode">Selfie mode</option>
+    <option value="squatting">Squatting</option>
+    <option value="leaning against wall">Leaning against wall</option>
+    <option value="sitting with chin tucked">Sitting with chin tucked</option>
+  </select>
+
+  <label>Background</label>
+  <select id="background">
+    <option value="gradient sparkle">Gradient sparkle</option>
+    <option value="urban crosswalk">Urban crosswalk</option>
+    <option value="rooftop cityscape">Rooftop cityscape</option>
+    <option value="social media overlay">Social media overlay</option>
+  </select>
+
+  <label>Style Preset</label>
+  <select id="stylePreset">
+    <option value="TikTok Trendsetter">TikTok Trendsetter</option>
+    <option value="Braided Boss Babe">Braided Boss Babe</option>
+    <option value="Varsity Babe">Varsity Babe</option>
+    <option value="Notebook Cover Glam">Notebook Cover Glam</option>
+    <option value="Digital Dollhouse">Digital Dollhouse</option>
+  </select>
+
+  <label>Mood</label>
+  <select id="mood">
+    <option value="Sassy">Sassy</option>
+    <option value="Playful">Playful</option>
+    <option value="Boss Babe">Boss Babe</option>
+    <option value="Dreamy">Dreamy</option>
+    <option value="Fierce">Fierce</option>
+  </select>
+
+  <br>
+  <button type="button" onclick="generatePrompt()">Generate Prompt</button>
+  <button type="button" onclick="copyPrompt()">Copy Prompt</button>
+  <button type="button" onclick="downloadPrompt()">Download Prompt</button>
+</form>
+
+<div id="output">
+  <h2>🎯 Your AI Prompt:</h2>
+  <p id="promptText"></p>
+</div>
+
+<script>
+function generatePrompt() {
+  const skinTone = document.getElementById('skinTone').value;
+  const hairStyle = document.getElementById('hairStyle').value;
+  const eyeSize = document.getElementById('eyeSize').value;
+  const lipFullness = document.getElementById('lipFullness').value;
+  const glossiness = document.getElementById('glossiness').value;
+  const outfit = document.getElementById('outfit').value;
+  const accessories = document.getElementById('accessories').value;
+  const pose = document.getElementById('pose').value;
+  const background = document.getElementById('background').value;
+  const stylePreset = document.getElementById('stylePreset').value;
+  const mood = document.getElementById('mood').value;
+
+  const prompt = `Stylized urban glam chibi with ${skinTone} skin, ${hairStyle}, oversized glossy eyes (size ${eyeSize}), full lips (fullness ${lipFullness}), and gloss level ${glossiness}. Wearing ${outfit} with ${accessories}. Pose is ${pose} with a ${background} background. Style preset: ${stylePreset}. Mood: ${mood}. Use bold outlines, vibrant colors, and notebook cover aesthetic.`;
+
+  document.getElementById('promptText').innerText = prompt;
+}
+
+function copyPrompt() {
+  const prompt = document.getElementById('promptText').innerText;
+  if (!prompt) return alert('Please generate a prompt first!');
+  navigator.clipboard.writeText(prompt).then(() => {
+    alert('Prompt copied to clipboard!');
+  });
+}
+
+function downloadPrompt() {
+  const prompt = document.getElementById('promptText').innerText;
+  if (!prompt) return alert('Please generate a prompt first!');
+  const blob = new Blob([prompt], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'ChibiStyler_Prompt.txt';
+  link.click();
+}
+</script>
+
+</body>
+</html>
+
