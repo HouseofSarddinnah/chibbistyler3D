@@ -1,351 +1,625 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChibiStyler 3D + Fashion Generator</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ChibiStyler 3D — Urban Glam Generator</title>
 <style>
-body {
-    font-family: Arial, sans-serif;
-    background: black;
-    color: white;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-h1 {
-    color: #39ff14;
-    text-align: center;
-    margin-bottom: 20px;
-}
-label {
-    display: block;
-    margin: 10px 0 5px;
-    color: #00ffea;
-}
+  :root{
+    --bg:#000;
+    --panel:#0f0f10;
+    --muted:#222;
+    --accent1:#39ff14; /* neon green */
+    --accent2:#00ffea; /* neon cyan */
+    --accent3:#9b59b6; /* purple */
+    --text:#fff;
+    --select-w:220px;
+    --sleek-pad:6px 12px;
+    --radius:6px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter, system-ui, Arial, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:18px;
+    display:flex;
+    gap:18px;
+    min-height:100vh;
+    align-items:flex-start;
+  }
 
-/* Sleek Narrow Dropdowns */
-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-color: #222;
-    color: white;
-    border: 1px solid #555;
-    border-radius: 4px;
-    padding: 5px 25px 5px 10px;
-    font-size: 0.95em;
-    width: 200px;
-    cursor: pointer;
-    position: relative;
-    margin-bottom: 15px;
-}
+  /* left column controls */
+  .left {
+    width:420px;
+    background:linear-gradient(180deg,var(--panel), #0b0b0c);
+    padding:16px;
+    border-radius:10px;
+    border:1px solid #151515;
+    max-height:calc(100vh - 36px);
+    overflow:auto;
+  }
+  h1{
+    margin:0 0 12px 0;
+    font-size:20px;
+    color:var(--accent1);
+    letter-spacing:0.6px;
+  }
+  h2{ margin:12px 0 8px 0; color:var(--accent2); font-size:13px }
 
-/* Custom arrow */
-select::after {
-    content: "▼";
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    color: white;
-    font-size: 0.8em;
-}
+  label{ display:block; font-size:13px; margin:8px 0 6px; color:#bfffe9 }
+  .row{ display:flex; gap:8px; align-items:center; margin-bottom:8px; flex-wrap:wrap }
 
-/* Hover effect */
-select:hover {
-    border-color: #39ff14;
-}
+  select, input[type="text"], input[type="color"], input[type="range"], .small-input {
+    -webkit-appearance:none; appearance:none;
+    background:transparent;
+    color:var(--text);
+    border:1px solid #2b2b2b;
+    padding:var(--sleek-pad);
+    border-radius:var(--radius);
+    font-size:13px;
+    width:var(--select-w);
+  }
 
-/* Slim Grey Buttons */
-button {
-    background-color: #555;
-    color: white;
-    font-weight: bold;
-    padding: 5px 12px;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.95em;
-    margin: 5px;
-}
+  /* narrow sleek select (appearance reset + custom arrow) */
+  .select-wrap{ position:relative; display:inline-block }
+  .select-wrap select{
+    padding-right:34px;
+  }
+  .select-wrap::after{
+    content:"▼";
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#ddd;
+    font-size:11px;
+    pointer-events:none;
+  }
 
-button:hover {
-    background-color: #777;
-}
+  input[type="color"]{ width:44px; height:36px; padding:4px; }
 
-button::after {
-    content: "▼";
-    font-size: 0.8em;
-}
+  /* checkbox groups */
+  .checkbox-group{ display:flex; gap:8px; flex-wrap:wrap; }
+  .checkbox-group label{ font-size:13px; color:#dff; background:transparent; padding:6px; border-radius:6px; border:1px solid #1a1a1a }
 
-/* Checkbox groups */
-.checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
-}
+  /* sliders */
+  .slider-row{ display:flex; gap:8px; align-items:center }
+  input[type="range"]{ width:160px }
 
-/* Prompt Output */
-textarea {
-    width: 100%;
-    max-width: 700px;
-    height: 180px;
-    padding: 10px;
-    font-size: 0.95em;
-    border-radius: 4px;
-    border: 1px solid #555;
-    background-color: #111;
-    color: white;
-    resize: none;
-}
+  /* slim grey buttons */
+  .actions { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap }
+  button.sleek {
+    background:#444;
+    color:white;
+    border:none;
+    padding:6px 12px;
+    border-radius:6px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-weight:600;
+    font-size:13px;
+  }
+  button.sleek::after{ content:"▼"; font-size:11px; opacity:0.9 }
+  button.sleek:hover{ background:#666 }
+
+  /* right preview area */
+  .right {
+    flex:1;
+    min-width:420px;
+    max-width:900px;
+    background:linear-gradient(180deg,#090909,#0b0b0c);
+    border-radius:10px;
+    padding:16px;
+    border:1px solid #141414;
+    max-height:calc(100vh - 36px);
+    overflow:auto;
+  }
+
+  .preview-top{ display:flex; gap:12px; align-items:center; margin-bottom:12px; justify-content:space-between }
+  .live-preview {
+    width:320px;
+    height:420px;
+    border-radius:10px;
+    background:linear-gradient(180deg,#111,#0b0b0b);
+    border:1px solid #222;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#aaa;
+    font-size:12px;
+  }
+
+  .prompt-box{
+    margin-top:12px;
+  }
+  textarea#promptOutput{
+    width:100%;
+    height:180px;
+    background:#0b0b0b;
+    color:#e6fff8;
+    border:1px solid #222;
+    padding:12px;
+    font-size:13px;
+    border-radius:8px;
+    resize:vertical;
+  }
+
+  .meta-row{ display:flex; gap:8px; align-items:center; margin-top:10px; flex-wrap:wrap }
+  .small { font-size:12px; color:#bfeff0 }
+
+  /* gallery */
+  .gallery { display:flex; gap:8px; overflow-x:auto; padding:10px 0 }
+  .gallery img { width:110px; height:140px; object-fit:cover; border-radius:6px; border:1px solid #222 }
+
+  footer.note { margin-top:12px; font-size:12px; color:#89ffd6 }
+  /* responsive */
+  @media (max-width:980px){
+    body{flex-direction:column; padding:12px}
+    .left{width:100%}
+    .right{width:100%}
+    .select-wrap select{ width:100% }
+  }
 </style>
 </head>
 <body>
 
-<h1>ChibiStyler 3D + Fashion Generator</h1>
+  <aside class="left">
+    <h1>ChibiStyler 3D — Urban Glam</h1>
 
-<!-- Hair -->
-<label for="hair">Hair Style:</label>
-<select id="hair">
-    <option>Curly</option>
-    <option>Buns</option>
-    <option>Bob</option>
-    <option>Pixie</option>
-    <option>Braided</option>
-    <option>Long</option>
-    <option>Ponytail</option>
-</select>
-<label for="hairColor">Hair Color:</label>
-<select id="hairColor">
-    <option>Natural</option>
-    <option>Pastel</option>
-    <option>Vibrant</option>
-    <option>Multicolor</option>
-</select>
+    <h2>Style Presets</h2>
+    <div class="row">
+      <div class="select-wrap"><select id="stylePreset">
+        <option value="">— Custom —</option>
+        <option value="Urban Glam">Urban Glam</option>
+        <option value="Notebook Diva">Notebook Diva</option>
+        <option value="Digital Influencer">Digital Influencer</option>
+        <option value="NYC Street Luxe">NYC Street Luxe</option>
+        <option value="Braided Boss Babe">Braided Boss Babe</option>
+        <option value="TikTok Trendsetter">TikTok Trendsetter</option>
+        <option value="Notebook Cover Glam">Notebook Cover Glam</option>
+        <option value="Digital Dollhouse">Digital Dollhouse</option>
+      </select></div>
 
-<!-- Skin Tone -->
-<label for="skinTone">Skin Tone / Ethnicity:</label>
-<select id="skinTone">
-    <option>African American</option>
-    <option>Hispanic</option>
-    <option>Asian</option>
-    <option>European</option>
-    <option>Caramel</option>
-    <option>Chocolate</option>
-    <option>Olive</option>
-    <option>Fair</option>
-    <option>Tan</option>
-</select>
+      <div style="flex:1"></div>
+    </div>
 
-<!-- Eyes & Makeup -->
-<label for="eyeShape">Eye Shape:</label>
-<select id="eyeShape">
-    <option>Almond</option>
-    <option>Round</option>
-    <option>Wide</option>
-    <option>Monolid</option>
-</select>
-<label for="eyeColor">Eye Color:</label>
-<select id="eyeColor">
-    <option>Brown</option>
-    <option>Blue</option>
-    <option>Green</option>
-    <option>Hazel</option>
-    <option>Grey</option>
-</select>
-<label for="eyelashes">Eyelashes:</label>
-<select id="eyelashes">
-    <option>Natural</option>
-    <option>Voluminous</option>
-    <option>Extra-long</option>
-</select>
-<label for="eyeshadow">Eyeshadow Color:</label>
-<select id="eyeshadow">
-    <option>None</option>
-    <option>Natural</option>
-    <option>Pastel</option>
-    <option>Vibrant</option>
-</select>
+    <h2>Base & Facial</h2>
+    <label>Personality Archetype</label>
+    <div class="select-wrap">
+      <select id="personality">
+        <option>Trendsetter</option>
+        <option>Introvert Dreamer</option>
+        <option>Boss Energy</option>
+        <option>Creative Rebel</option>
+        <option>Sweetheart</option>
+      </select>
+    </div>
 
-<!-- Lips / Makeup -->
-<label for="lipstick">Lipstick Color:</label>
-<select id="lipstick">
-    <option>Nude</option>
-    <option>Pink</option>
-    <option>Red</option>
-    <option>Burgundy</option>
-    <option>Bold Neon</option>
-</select>
+    <label>Expression</label>
+    <div class="select-wrap">
+      <select id="expression">
+        <option>Cheerful</option>
+        <option>Smirk</option>
+        <option>Pout</option>
+        <option>Wink</option>
+        <option>Side-eye</option>
+        <option>Raised brow</option>
+        <option>Laughing (eyes closed)</option>
+        <option>Thoughtful gaze</option>
+        <option>Caught mid-selfie</option>
+      </select>
+    </div>
 
-<!-- Outfit -->
-<label for="outfit">Outfit:</label>
-<select id="outfit">
-    <option>Streetwear</option>
-    <option>Formal</option>
-    <option>Casual</option>
-    <option>Luxury</option>
-    <option>Sportswear</option>
-</select>
-<label for="jacket">Jacket / Outerwear:</label>
-<select id="jacket">
-    <option>None</option>
-    <option>Trench Coat</option>
-    <option>Blazer</option>
-    <option>Leather Jacket</option>
-    <option>Hoodie</option>
-</select>
+    <label>Face sliders</label>
+    <div class="slider-row">
+      <div style="width:45%"><label class="small">Eye size</label><input id="eyeSize" type="range" min="70" max="160" value="110"></div>
+      <div style="width:45%"><label class="small">Lip fullness</label><input id="lipFullness" type="range" min="70" max="160" value="110"></div>
+    </div>
+    <div class="slider-row" style="margin-bottom:8px">
+      <div style="width:45%"><label class="small">Glossiness</label><input id="glossiness" type="range" min="0" max="100" value="55"></div>
+      <div style="width:45%"></div>
+    </div>
 
-<!-- Shoes -->
-<label for="shoes">Shoes:</label>
-<select id="shoes">
-    <option>Sneakers</option>
-    <option>Heels</option>
-    <option>Loafers</option>
-    <option>Timberlands</option>
-    <option>Dress Shoes</option>
-    <option>Wedge Shoes</option>
-    <option>Boots</option>
-    <option>Sandals</option>
-</select>
-<label for="shoeColor">Shoe Color:</label>
-<select id="shoeColor">
-    <option>Black</option>
-    <option>White</option>
-    <option>Red</option>
-    <option>Blue</option>
-    <option>Gold</option>
-    <option>Silver</option>
-</select>
+    <h2>Hair</h2>
+    <div class="row">
+      <div class="select-wrap"><select id="hair">
+        <option>Voluminous curly buns</option>
+        <option>High bun</option>
+        <option>Short locs with shaved side</option>
+        <option>Long braids</option>
+        <option>Coily afro</option>
+        <option>Sleek ponytail</option>
+        <option>Pixie</option>
+        <option>Bob</option>
+      </select></div>
 
-<!-- Accessories -->
-<label>Jewelry:</label>
-<div class="checkbox-group">
-    <label><input type="checkbox" class="jewelry" value="Hoop Earrings"> Hoop Earrings</label>
-    <label><input type="checkbox" class="jewelry" value="Necklace"> Necklace</label>
-    <label><input type="checkbox" class="jewelry" value="Bracelets"> Bracelets</label>
-    <label><input type="checkbox" class="jewelry" value="Rings"> Rings</label>
-</div>
+      <div class="select-wrap"><select id="hairTexture">
+        <option>Curly</option>
+        <option>Coily</option>
+        <option>Braided</option>
+        <option>Sleek</option>
+      </select></div>
+    </div>
 
-<label>Eyewear:</label>
-<div class="checkbox-group">
-    <label><input type="checkbox" class="eyewear" value="Glasses"> Glasses</label>
-</div>
-<label for="frameColor">Frame Color:</label>
-<select id="frameColor">
-    <option>Black</option>
-    <option>Gold</option>
-    <option>Silver</option>
-    <option>Red</option>
-    <option>Blue</option>
-</select>
+    <label>Hair Color</label>
+    <div class="row">
+      <div class="select-wrap"><select id="hairColor">
+        <option>Natural black</option><option>Brown</option><option>Blonde tips</option>
+        <option>Ombre</option><option>Pastel mix</option><option>Vibrant neon</option>
+      </select></div>
+      <div style="flex:1"></div>
+    </div>
 
-<label>Headgear:</label>
-<div class="checkbox-group">
-    <label><input type="checkbox" class="headgear" value="Cap"> Cap</label>
-    <label><input type="checkbox" class="headgear" value="Bow"> Bow</label>
-    <label><input type="checkbox" class="headgear" value="Hair Clip"> Hair Clip</label>
-    <label><input type="checkbox" class="headgear" value="Headband"> Headband</label>
-</div>
+    <h2>Face & Eyes</h2>
+    <div class="row">
+      <div class="select-wrap"><select id="skinTone">
+        <option>African American</option><option>Caramel</option><option>Chocolate</option>
+        <option>Hispanic</option><option>Asian</option><option>Olive</option><option>Fair</option><option>Tan</option>
+      </select></div>
 
-<!-- Pose -->
-<label for="pose">Pose:</label>
-<select id="pose">
-    <option>Squatting</option>
-    <option>Sitting on Floor</option>
-    <option>Standing Against Wall</option>
-    <option>Leaning</option>
-    <option>Action / Dynamic</option>
-</select>
+      <div class="select-wrap"><select id="eyeShape">
+        <option>Almond</option><option>Round</option><option>Wide</option><option>Monolid</option>
+      </select></div>
+    </div>
 
-<!-- Background -->
-<label for="background">Background:</label>
-<select id="background">
-    <option>Glitter</option>
-    <option>Social Media Aesthetic</option>
-    <option>High-Aesthetic Room</option>
-    <option>Salon</option>
-    <option>Vibrant City</option>
-    <option>White</option>
-</select>
+    <div class="row">
+      <div class="select-wrap"><select id="eyeColor">
+        <option>Brown</option><option>Amber</option><option>Green</option><option>Blue</option><option>Hazel</option><option>Grey</option>
+      </select></div>
 
-<!-- Effects / Styling -->
-<label for="effects">Effects / Styling:</label>
-<select id="effects">
-    <option>Glossy 3D</option>
-    <option>Vibrant Styling</option>
-    <option>Floating Elements</option>
-    <option>Expressive Pose</option>
-</select>
+      <div class="select-wrap"><select id="eyelashes">
+        <option>Voluminous</option><option>Extra-long</option><option>Natural</option>
+      </select></div>
+    </div>
 
-<!-- Fashion Presets -->
-<label for="preset">Fashion Preset:</label>
-<select id="preset">
-    <option value="">-- None --</option>
-    <option value="Streetwear → sneakers, vibrant city vibe">Streetwear</option>
-    <option value="Formal → jewel-toned outfit, heels, golden hour studio">Formal</option>
-    <option value="Casual → pastel outfit, loafers, cozy home flatlay">Casual</option>
-    <option value="Luxury → muted outfit, dress shoes, runway gloss">Luxury</option>
-    <option value="Sportswear → neon sportswear, sneakers, action shot">Sportswear</option>
-</select>
+    <label>Eyeshadow</label>
+    <div class="select-wrap"><select id="eyeshadow">
+      <option>None</option><option>Neutral</option><option>Pastel</option><option>Vibrant</option><option>Glitter</option>
+    </select></div>
 
-<!-- Buttons -->
-<button onclick="generatePrompt()">Generate Prompt</button>
-<button onclick="copyPrompt()">Copy Prompt</button>
+    <label>Lipstick</label>
+    <div class="row">
+      <div class="select-wrap"><select id="lipstick">
+        <option>Nude</option><option>Soft Pink</option><option>Bold Red</option><option>Burgundy</option><option>Neon</option>
+      </select></div>
+      <div><input id="lipColor" type="color" value="#ff4d4d" title="Lip color"></div>
+    </div>
 
-<!-- Output -->
-<textarea id="promptOutput" placeholder="Your AI-ready prompt will appear here..." readonly></textarea>
+    <h2>Clothes & Fabric</h2>
+
+    <label>Top</label>
+    <div class="select-wrap"><select id="top">
+      <option>Crop top</option><option>Oversized hoodie</option><option>Graphic hoodie</option>
+      <option>Fur-trimmed bomber</option><option>Cropped varsity jacket</option><option>Off-shoulder sweater</option>
+      <option>Mesh top under bralette</option><option>Denim vest with pins</option>
+    </select></div>
+
+    <label>Bottom</label>
+    <div class="select-wrap"><select id="bottom">
+      <option>Ripped jeans</option><option>High-waisted joggers</option><option>Pleated mini skirt</option>
+      <option>Cargo pants</option><option>Holographic leggings</option><option>Distressed skinny jeans</option>
+    </select></div>
+
+    <label>Outerwear</label>
+    <div class="select-wrap"><select id="outerwear">
+      <option>None</option><option>Oversized faux fur coat</option><option>Puffer jacket (metallic)</option>
+      <option>Trench coat with graffiti lining</option><option>Cape-style coat with studs</option><option>Denim jacket (shearling)</option>
+    </select></div>
+
+    <label>Fabric / Texture</label>
+    <div class="select-wrap"><select id="fabric">
+      <option>Satin</option><option>Velvet</option><option>Denim</option><option>Mesh</option><option>Faux leather</option>
+      <option>Glitter overlay</option><option>Holographic shimmer</option><option>Sheer layers</option>
+    </select></div>
+
+    <h2>Headwear & Accessories</h2>
+    <div class="row">
+      <div class="select-wrap"><select id="headwear">
+        <option>None</option><option>Baseball cap</option><option>Beanie</option><option>Bucket hat</option><option>Snapback</option>
+      </select></div>
+
+      <div class="select-wrap"><select id="headwearStyle">
+        <option>Custom logo</option><option>Glitter finish</option><option>Pastel</option><option>Bold color</option><option>Patches/rhinestones</option><option>Graffiti print</option>
+      </select></div>
+    </div>
+
+    <label>Accessories pack</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" class="accessory" value="Hoop earrings (oversized)"> Hoop earrings</label>
+      <label><input type="checkbox" class="accessory" value="Smartphone with custom case"> Smartphone</label>
+      <label><input type="checkbox" class="accessory" value="Crossbody bag with bold logo"> Crossbody bag</label>
+      <label><input type="checkbox" class="accessory" value="Statement sunglasses"> Sunglasses</label>
+      <label><input type="checkbox" class="accessory" value="Layered necklaces/chokers"> Necklaces</label>
+      <label><input type="checkbox" class="accessory" value="Nail art (long acrylics)"> Nail art</label>
+    </div>
+
+    <h2>Footwear</h2>
+    <div class="row">
+      <div class="select-wrap"><select id="footwear">
+        <option>Platform sneakers (gradient soles)</option><option>Timberland-style boots</option>
+        <option>Chunky high-top trainers</option><option>Glittery ankle boots</option><option>Slide sandals (faux fur)</option>
+      </select></div>
+
+      <div class="select-wrap"><select id="shoeColor">
+        <option>Black</option><option>White</option><option>Red</option><option>Blue</option><option>Gold</option><option>Silver</option>
+      </select></div>
+    </div>
+
+    <h2>Pose & Scene</h2>
+    <div class="row">
+      <div class="select-wrap"><select id="pose">
+        <option>Squatting</option><option>Sitting on Floor</option><option>Standing Against Wall</option>
+        <option>Leaning</option><option>Action / Dynamic</option><option>Selfie Mode</option>
+      </select></div>
+
+      <div class="select-wrap"><select id="mood">
+        <option>Sassy</option><option>Playful</option><option>Boss Babe</option>
+      </select></div>
+    </div>
+
+    <label>Scene Builder</label>
+    <div class="select-wrap"><select id="scene">
+      <option>Vibrant city rooftop</option><option>Bedroom vanity</option><option>Rooftop with city lights</option>
+      <option>School hallway</option><option>TikTok livestream setup</option><option>Magazine cover layout</option><option>White</option>
+    </select></div>
+
+    <h2>Effects & Output</h2>
+    <div class="select-wrap"><select id="effects">
+      <option>Glossy 3D</option><option>Vibrant styling</option><option>Floating elements</option><option>Notebook cover aesthetic</option>
+      <option>High contrast outlines</option>
+    </select></div>
+
+    <label>Watermark / Creator Tag (optional)</label>
+    <input id="watermark" type="text" placeholder="@yourname" class="small-input">
+
+    <div class="actions">
+      <button class="sleek" onclick="applyPreset();">Apply Preset</button>
+      <button class="sleek" onclick="generatePrompt();">Generate Prompt</button>
+      <button class="sleek" onclick="copyPrompt();">Copy Prompt</button>
+      <button class="sleek" onclick="downloadGenerator();">Download Generator</button>
+    </div>
+
+    <footer class="note">Tip: use "Selfie Mode" + Smartphone accessory for influencer snaps.</footer>
+  </aside>
+
+  <main class="right">
+    <div class="preview-top">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;gap:8px;align-items:center">
+          <div style="font-size:18px;color:var(--accent2)">Live Prompt Preview</div>
+          <div class="small" style="margin-left:6px">— copy to Microsoft Designer / Canva AI</div>
+        </div>
+        <div class="meta-row small">
+          <div>Style: <strong id="previewStyle">Stylized urban glam chibi</strong></div>
+          <div>|</div>
+          <div>Archetype: <strong id="previewArchetype">Trendsetter</strong></div>
+          <div>|</div>
+          <div>Mood: <strong id="previewMood">Sassy</strong></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="live-preview" id="livePreview">Thumbnail<br/>Preview</div>
+        <div style="width:220px">
+          <div class="gallery" id="gallery">
+            <!-- small sample images frame (placeholders) -->
+            <img src="https://dummyimage.com/120x160/222/fff&text=Sample1" alt="">
+            <img src="https://dummyimage.com/120x160/333/fff&text=Sample2" alt="">
+            <img src="https://dummyimage.com/120x160/444/fff&text=Sample3" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+      <textarea id="promptOutput" readonly placeholder="Your AI-ready prompt will appear here..."></textarea>
+      <div class="meta-row">
+        <div class="small">Preview the generated prompt. Use Copy to send to Microsoft Designer, Canva AI, or other image generators.</div>
+      </div>
+    </div>
+
+    <section style="margin-top:14px">
+      <h2 style="color:var(--accent2)">Preview Tips & How AI will interpret</h2>
+      <p class="small">Prompts automatically include style keywords such as: <em>"Stylized urban glam chibi with Afrocentric features, glossy eyes and lips, Notebook cover aesthetic, digital cartoon illustration with bold outlines and shading"</em>. Use the sliders to tweak eye size, lip fullness and glossiness before copying.</p>
+    </section>
+  </main>
 
 <script>
-function generatePrompt() {
-    const preset = document.getElementById('preset').value;
-    if (preset) {
-        document.getElementById('promptOutput').value = "Chibi-style character, full body, expressive face, " + preset;
-        return;
-    }
+/* ---------- Utility ---------- */
+function q(sel){return document.querySelector(sel)}
+function qa(sel){return Array.from(document.querySelectorAll(sel))}
 
-    const hair = document.getElementById('hair').value;
-    const hairColor = document.getElementById('hairColor').value;
-    const skinTone = document.getElementById('skinTone').value;
-    const eyeShape = document.getElementById('eyeShape').value;
-    const eyeColor = document.getElementById('eyeColor').value;
-    const eyelashes = document.getElementById('eyelashes').value;
-    const eyeshadow = document.getElementById('eyeshadow').value;
-    const lipstick = document.getElementById('lipstick').value;
-    const outfit = document.getElementById('outfit').value;
-    const jacket = document.getElementById('jacket').value;
-    const shoes = document.getElementById('shoes').value;
-    const shoeColor = document.getElementById('shoeColor').value;
-    const pose = document.getElementById('pose').value;
-    const background = document.getElementById('background').value;
-    const effects = document.getElementById('effects').value;
+/* ---------- Preset handler ---------- */
+function applyPreset(){
+  const p = q('#stylePreset').value;
+  if(!p) return alert('Choose a preset first or use Custom selections.');
+  // quick preset fills — simple mapping, you can expand
+  const map = {
+    "Urban Glam": {top:'Fur-trimmed bomber', outerwear:'Oversized faux fur coat', footwear:'Glittery ankle boots', effects:'Glossy 3D', headwear:'None'},
+    "Notebook Diva": {top:'Crop top', bottom:'Pleated mini skirt', effects:'Notebook cover aesthetic', headwear:'Bow'},
+    "Digital Influencer": {top:'Graphic hoodie', bottom:'High-waisted joggers', effects:'Vibrant styling', headwear:'Snapback'},
+    "NYC Street Luxe": {top:'Fur-trimmed bomber', outerwear:'Oversized faux fur coat', footwear:'Timberland-style boots', headwear:'Baseball cap'},
+    "Braided Boss Babe": {hair:'Long braids', top:'Cropped varsity jacket', bottom:'High-waisted joggers', headwear:'None'},
+    "TikTok Trendsetter": {top:'Oversized hoodie', footwear:'Platform sneakers (gradient soles)', pose:'Selfie Mode', accessories:['Smartphone with custom case']},
+    "Notebook Cover Glam": {top:'Mesh top under bralette', effects:'Notebook cover aesthetic', accessories:['Hoop earrings (oversized)']}
+  };
 
-    // Collect checkboxes
-    const jewelry = Array.from(document.querySelectorAll('.jewelry:checked')).map(e => e.value).join(", ");
-    const eyewear = Array.from(document.querySelectorAll('.eyewear:checked')).map(e => e.value).join(", ");
-    const frameColor = document.getElementById('frameColor').value;
-    const headgear = Array.from(document.querySelectorAll('.headgear:checked')).map(e => e.value).join(", ");
+  const s = map[p];
+  if(!s) return;
+  if(s.hair) q('#hair').value = s.hair;
+  if(s.top) q('#top').value = s.top;
+  if(s.bottom) q('#bottom').value = s.bottom;
+  if(s.outerwear) q('#outerwear').value = s.outerwear;
+  if(s.footwear) q('#footwear').value = s.footwear;
+  if(s.effects) q('#effects').value = s.effects;
+  if(s.pose) q('#pose').value = s.pose;
+  if(s.headwear) q('#headwear').value = s.headwear;
+  // accessories: check boxes
+  if(s.accessories){
+    // clear all first
+    qa('.accessory').forEach(cb => cb.checked = false);
+    s.accessories.forEach(val=>{
+      qa('.accessory').forEach(cb=>{
+        if(cb.value.includes(val) || val.includes(cb.value) || cb.value === val) cb.checked = true;
+      })
+    })
+  }
 
-    const prompt = `Chibi-style character, full body, expressive face, Hair: ${hair} (${hairColor}), Skin Tone: ${skinTone}, Eyes: ${eyeShape} (${eyeColor}, ${eyelashes}, ${eyeshadow}), Lips: ${lipstick}, Outfit: ${outfit} (${jacket}), Shoes: ${shoes} (${shoeColor}), Jewelry: ${jewelry}, Eyewear: ${eyewear} (${frameColor}), Headgear: ${headgear}, Pose: ${pose}, Background: ${background}, Effects: ${effects}`;
-
-    document.getElementById('promptOutput').value = prompt;
+  generatePrompt();
 }
 
-function copyPrompt() {
-    const textarea = document.getElementById('promptOutput');
-    textarea.select();
-    textarea.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(textarea.value);
-    alert("Prompt copied!");
+/* ---------- Generate prompt ---------- */
+function generatePrompt(){
+  // base style
+  const styleLead = "Stylized urban glam chibi with Afrocentric features and influencer fashion, digital cartoon illustration style, glossy 3D textures, highly detailed, vibrant lighting, big glossy eyes and lips, notebook cover aesthetic, bold outlines and shading";
+
+  // get values
+  const personality = q('#personality').value;
+  const expression = q('#expression').value;
+  const eyeSize = q('#eyeSize').value;
+  const lipFullness = q('#lipFullness').value;
+  const glossiness = q('#glossiness').value;
+
+  const hair = q('#hair').value;
+  const hairTexture = q('#hairTexture').value;
+  const hairColor = q('#hairColor').value;
+
+  const skinTone = q('#skinTone').value;
+  const eyeShape = q('#eyeShape').value;
+  const eyeColor = q('#eyeColor').value;
+  const eyelashes = q('#eyelashes').value;
+  const eyeshadow = q('#eyeshadow').value;
+
+  const lipstick = q('#lipstick').value;
+  const lipColor = q('#lipColor').value;
+
+  const top = q('#top').value;
+  const bottom = q('#bottom').value;
+  const outerwear = q('#outerwear').value;
+  const fabric = q('#fabric').value;
+
+  const headwear = q('#headwear').value;
+  const headwearStyle = q('#headwearStyle').value;
+
+  const accessories = qa('.accessory:checked').map(n=>n.value).join(', ') || 'none';
+  const footwear = q('#footwear').value;
+  const shoeColor = q('#shoeColor').value;
+
+  const pose = q('#pose').value;
+  const mood = q('#mood').value;
+  const scene = q('#scene').value;
+  const effects = q('#effects').value;
+
+  const frameColor = q('#frameColor') ? q('#frameColor').value : '';
+  const eyewearChecked = qa('.eyewear:checked').map(n=>n.value).join(', ');
+  const watermark = (q('#watermark').value || '').trim();
+
+  // personality influence phrases
+  const archetypeMap = {
+    'Trendsetter': 'trendsetting attitude, cutting-edge styling',
+    'Introvert Dreamer': 'soft, cozy, reflective mood',
+    'Boss Energy': 'confident, commanding presence',
+    'Creative Rebel': 'edgy, artsy, unexpected styling',
+    'Sweetheart': 'bubbly, pastel, affectionate vibe'
+  };
+  const archetypePhrase = archetypeMap[personality] || '';
+
+  // expression nuance
+  const expressionPhrase = expression === 'Caught mid-selfie' ? 'caught mid-selfie, slightly tilted camera angle' : expression.toLowerCase();
+
+  // sliders -> descriptive adjectives
+  const eyeSizePhrase = (eyeSize>120)? 'extra-large glossy eyes' : (eyeSize<85)? 'smaller delicate eyes': 'large glossy eyes';
+  const lipPhrase = (lipFullness>120)? 'full glossy lips' : (lipFullness<85)? 'subtle lips' : 'plump glossy lips';
+  const glossPhrase = `glossiness:${glossiness}%`;
+
+  // combine eyewear info
+  let eyewearPhrase = '';
+  if(eyewearChecked) eyewearPhrase = `${eyewearChecked}${frameColor ? ' (frame color: '+frameColor+')' : ''}`;
+
+  // build outfit string
+  const outfitParts = [];
+  if(top) outfitParts.push(top);
+  if(bottom) outfitParts.push(bottom);
+  if(outerwear && outerwear !== 'None') outfitParts.push(outerwear);
+  if(fabric) outfitParts.push(`fabric: ${fabric}`);
+
+  // accessories gather
+  let accessoriesPhrase = accessories;
+  if(eyewearPhrase) accessoriesPhrase = accessoriesPhrase === 'none' ? eyewearPhrase : accessoriesPhrase + ', ' + eyewearPhrase;
+  if(accessoriesPhrase === 'none') accessoriesPhrase = 'minimal accessories';
+
+  // style preset quick check
+  const preset = q('#stylePreset').value;
+
+  // final prompt template (clean, descriptive)
+  let prompt = `${styleLead}. ${archetypePhrase}. Expression: ${expressionPhrase}. ${eyeSizePhrase}, ${lipPhrase}, ${glossPhrase}. Hair: ${hair} (${hairTexture}, ${hairColor}). Skin tone: ${skinTone}. Eyes: ${eyeShape} (${eyeColor}), eyelashes: ${eyelashes}, eyeshadow: ${eyeshadow}. Outfit: ${outfitParts.join(', ')}. Shoes: ${footwear} (${shoeColor}). Accessories: ${accessoriesPhrase}. Headwear: ${headwear}${headwear && headwear!=='None' ? ' ('+headwearStyle+')' : ''}. Pose: ${pose}, mood: ${mood}. Scene: ${scene}. Visual effects: ${effects}.`;
+
+  if(preset) prompt = `${preset}, ${prompt}`;
+
+  // watermark appended as a note (optional)
+  if(watermark) prompt += ` Include subtle creator watermark: "${watermark}" positioned bottom-right.`;
+
+  // tidy spaces
+  prompt = prompt.replace(/\s+,/g,',').replace(/\s{2,}/g,' ').trim();
+
+  // update preview
+  q('#promptOutput').value = prompt;
+  q('#previewStyle').textContent = 'Stylized urban glam chibi';
+  q('#previewArchetype').textContent = personality;
+  q('#previewMood').textContent = mood;
+
+  // (Optional) update a tiny thumbnail preview text
+  q('#livePreview').innerHTML = `<div style="padding:12px;text-align:center;font-size:12px;color:#cfe">${hair}<br><small style="color:#999">${skinTone} • ${pose}</small></div>`;
 }
+
+/* copy prompt */
+async function copyPrompt(){
+  const text = q('#promptOutput').value;
+  if(!text) return alert('Generate a prompt first');
+  try{
+    await navigator.clipboard.writeText(text);
+    alert('Prompt copied to clipboard!');
+  }catch(e){
+    // fallback
+    const ta = q('#promptOutput');
+    ta.select();
+    document.execCommand('copy');
+    alert('Prompt copied (fallback)!');
+  }
+}
+
+/* download generator (zips index.html) - simple blob download */
+function downloadGenerator(){
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'ChibiStyler3D_generator.html';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* initialize demo */
+(function init(){
+  // set change listeners to regenerate prompt live
+  const inputs = ['#hair','#hairTexture','#hairColor','#skinTone','#eyeShape','#eyeColor','#eyelashes','#eyeshadow','#lipstick','#lipColor','#top','#bottom','#outerwear','#fabric','#headwear','#headwearStyle','#footwear','#shoeColor','#pose','#mood','#scene','#effects','#personality','#expression','#eyeSize','#lipFullness','#glossiness','#stylePreset'];
+  inputs.forEach(sel=>{
+    const el = q(sel);
+    if(!el) return;
+    el.addEventListener('change', generatePrompt);
+    el.addEventListener('input', generatePrompt);
+  });
+  qa('.accessory').forEach(cb=>cb.addEventListener('change', generatePrompt));
+  qa('.eyewear').forEach(cb=>cb.addEventListener('change', generatePrompt));
+  q('#watermark').addEventListener('input', generatePrompt);
+  // initial prompt
+  generatePrompt();
+})();
 </script>
-
 </body>
 </html>
