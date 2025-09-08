@@ -1,3 +1,351 @@
-﻿<button onclick="generatePrompt()">Generate Prompt</button>
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChibiStyler 3D + Fashion Generator</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: black;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+h1 {
+    color: #39ff14;
+    text-align: center;
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #00ffea;
+}
+
+/* Sleek Narrow Dropdowns */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #222;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 5px 25px 5px 10px;
+    font-size: 0.95em;
+    width: 200px;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+/* Custom arrow */
+select::after {
+    content: "▼";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: white;
+    font-size: 0.8em;
+}
+
+/* Hover effect */
+select:hover {
+    border-color: #39ff14;
+}
+
+/* Slim Grey Buttons */
+button {
+    background-color: #555;
+    color: white;
+    font-weight: bold;
+    padding: 5px 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.95em;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #777;
+}
+
+button::after {
+    content: "▼";
+    font-size: 0.8em;
+}
+
+/* Checkbox groups */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+/* Prompt Output */
+textarea {
+    width: 100%;
+    max-width: 700px;
+    height: 180px;
+    padding: 10px;
+    font-size: 0.95em;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background-color: #111;
+    color: white;
+    resize: none;
+}
+</style>
+</head>
+<body>
+
+<h1>ChibiStyler 3D + Fashion Generator</h1>
+
+<!-- Hair -->
+<label for="hair">Hair Style:</label>
+<select id="hair">
+    <option>Curly</option>
+    <option>Buns</option>
+    <option>Bob</option>
+    <option>Pixie</option>
+    <option>Braided</option>
+    <option>Long</option>
+    <option>Ponytail</option>
+</select>
+<label for="hairColor">Hair Color:</label>
+<select id="hairColor">
+    <option>Natural</option>
+    <option>Pastel</option>
+    <option>Vibrant</option>
+    <option>Multicolor</option>
+</select>
+
+<!-- Skin Tone -->
+<label for="skinTone">Skin Tone / Ethnicity:</label>
+<select id="skinTone">
+    <option>African American</option>
+    <option>Hispanic</option>
+    <option>Asian</option>
+    <option>European</option>
+    <option>Caramel</option>
+    <option>Chocolate</option>
+    <option>Olive</option>
+    <option>Fair</option>
+    <option>Tan</option>
+</select>
+
+<!-- Eyes & Makeup -->
+<label for="eyeShape">Eye Shape:</label>
+<select id="eyeShape">
+    <option>Almond</option>
+    <option>Round</option>
+    <option>Wide</option>
+    <option>Monolid</option>
+</select>
+<label for="eyeColor">Eye Color:</label>
+<select id="eyeColor">
+    <option>Brown</option>
+    <option>Blue</option>
+    <option>Green</option>
+    <option>Hazel</option>
+    <option>Grey</option>
+</select>
+<label for="eyelashes">Eyelashes:</label>
+<select id="eyelashes">
+    <option>Natural</option>
+    <option>Voluminous</option>
+    <option>Extra-long</option>
+</select>
+<label for="eyeshadow">Eyeshadow Color:</label>
+<select id="eyeshadow">
+    <option>None</option>
+    <option>Natural</option>
+    <option>Pastel</option>
+    <option>Vibrant</option>
+</select>
+
+<!-- Lips / Makeup -->
+<label for="lipstick">Lipstick Color:</label>
+<select id="lipstick">
+    <option>Nude</option>
+    <option>Pink</option>
+    <option>Red</option>
+    <option>Burgundy</option>
+    <option>Bold Neon</option>
+</select>
+
+<!-- Outfit -->
+<label for="outfit">Outfit:</label>
+<select id="outfit">
+    <option>Streetwear</option>
+    <option>Formal</option>
+    <option>Casual</option>
+    <option>Luxury</option>
+    <option>Sportswear</option>
+</select>
+<label for="jacket">Jacket / Outerwear:</label>
+<select id="jacket">
+    <option>None</option>
+    <option>Trench Coat</option>
+    <option>Blazer</option>
+    <option>Leather Jacket</option>
+    <option>Hoodie</option>
+</select>
+
+<!-- Shoes -->
+<label for="shoes">Shoes:</label>
+<select id="shoes">
+    <option>Sneakers</option>
+    <option>Heels</option>
+    <option>Loafers</option>
+    <option>Timberlands</option>
+    <option>Dress Shoes</option>
+    <option>Wedge Shoes</option>
+    <option>Boots</option>
+    <option>Sandals</option>
+</select>
+<label for="shoeColor">Shoe Color:</label>
+<select id="shoeColor">
+    <option>Black</option>
+    <option>White</option>
+    <option>Red</option>
+    <option>Blue</option>
+    <option>Gold</option>
+    <option>Silver</option>
+</select>
+
+<!-- Accessories -->
+<label>Jewelry:</label>
+<div class="checkbox-group">
+    <label><input type="checkbox" class="jewelry" value="Hoop Earrings"> Hoop Earrings</label>
+    <label><input type="checkbox" class="jewelry" value="Necklace"> Necklace</label>
+    <label><input type="checkbox" class="jewelry" value="Bracelets"> Bracelets</label>
+    <label><input type="checkbox" class="jewelry" value="Rings"> Rings</label>
+</div>
+
+<label>Eyewear:</label>
+<div class="checkbox-group">
+    <label><input type="checkbox" class="eyewear" value="Glasses"> Glasses</label>
+</div>
+<label for="frameColor">Frame Color:</label>
+<select id="frameColor">
+    <option>Black</option>
+    <option>Gold</option>
+    <option>Silver</option>
+    <option>Red</option>
+    <option>Blue</option>
+</select>
+
+<label>Headgear:</label>
+<div class="checkbox-group">
+    <label><input type="checkbox" class="headgear" value="Cap"> Cap</label>
+    <label><input type="checkbox" class="headgear" value="Bow"> Bow</label>
+    <label><input type="checkbox" class="headgear" value="Hair Clip"> Hair Clip</label>
+    <label><input type="checkbox" class="headgear" value="Headband"> Headband</label>
+</div>
+
+<!-- Pose -->
+<label for="pose">Pose:</label>
+<select id="pose">
+    <option>Squatting</option>
+    <option>Sitting on Floor</option>
+    <option>Standing Against Wall</option>
+    <option>Leaning</option>
+    <option>Action / Dynamic</option>
+</select>
+
+<!-- Background -->
+<label for="background">Background:</label>
+<select id="background">
+    <option>Glitter</option>
+    <option>Social Media Aesthetic</option>
+    <option>High-Aesthetic Room</option>
+    <option>Salon</option>
+    <option>Vibrant City</option>
+    <option>White</option>
+</select>
+
+<!-- Effects / Styling -->
+<label for="effects">Effects / Styling:</label>
+<select id="effects">
+    <option>Glossy 3D</option>
+    <option>Vibrant Styling</option>
+    <option>Floating Elements</option>
+    <option>Expressive Pose</option>
+</select>
+
+<!-- Fashion Presets -->
+<label for="preset">Fashion Preset:</label>
+<select id="preset">
+    <option value="">-- None --</option>
+    <option value="Streetwear → sneakers, vibrant city vibe">Streetwear</option>
+    <option value="Formal → jewel-toned outfit, heels, golden hour studio">Formal</option>
+    <option value="Casual → pastel outfit, loafers, cozy home flatlay">Casual</option>
+    <option value="Luxury → muted outfit, dress shoes, runway gloss">Luxury</option>
+    <option value="Sportswear → neon sportswear, sneakers, action shot">Sportswear</option>
+</select>
+
+<!-- Buttons -->
+<button onclick="generatePrompt()">Generate Prompt</button>
 <button onclick="copyPrompt()">Copy Prompt</button>
 
+<!-- Output -->
+<textarea id="promptOutput" placeholder="Your AI-ready prompt will appear here..." readonly></textarea>
+
+<script>
+function generatePrompt() {
+    const preset = document.getElementById('preset').value;
+    if (preset) {
+        document.getElementById('promptOutput').value = "Chibi-style character, full body, expressive face, " + preset;
+        return;
+    }
+
+    const hair = document.getElementById('hair').value;
+    const hairColor = document.getElementById('hairColor').value;
+    const skinTone = document.getElementById('skinTone').value;
+    const eyeShape = document.getElementById('eyeShape').value;
+    const eyeColor = document.getElementById('eyeColor').value;
+    const eyelashes = document.getElementById('eyelashes').value;
+    const eyeshadow = document.getElementById('eyeshadow').value;
+    const lipstick = document.getElementById('lipstick').value;
+    const outfit = document.getElementById('outfit').value;
+    const jacket = document.getElementById('jacket').value;
+    const shoes = document.getElementById('shoes').value;
+    const shoeColor = document.getElementById('shoeColor').value;
+    const pose = document.getElementById('pose').value;
+    const background = document.getElementById('background').value;
+    const effects = document.getElementById('effects').value;
+
+    // Collect checkboxes
+    const jewelry = Array.from(document.querySelectorAll('.jewelry:checked')).map(e => e.value).join(", ");
+    const eyewear = Array.from(document.querySelectorAll('.eyewear:checked')).map(e => e.value).join(", ");
+    const frameColor = document.getElementById('frameColor').value;
+    const headgear = Array.from(document.querySelectorAll('.headgear:checked')).map(e => e.value).join(", ");
+
+    const prompt = `Chibi-style character, full body, expressive face, Hair: ${hair} (${hairColor}), Skin Tone: ${skinTone}, Eyes: ${eyeShape} (${eyeColor}, ${eyelashes}, ${eyeshadow}), Lips: ${lipstick}, Outfit: ${outfit} (${jacket}), Shoes: ${shoes} (${shoeColor}), Jewelry: ${jewelry}, Eyewear: ${eyewear} (${frameColor}), Headgear: ${headgear}, Pose: ${pose}, Background: ${background}, Effects: ${effects}`;
+
+    document.getElementById('promptOutput').value = prompt;
+}
+
+function copyPrompt() {
+    const textarea = document.getElementById('promptOutput');
+    textarea.select();
+    textarea.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(textarea.value);
+    alert("Prompt copied!");
+}
+</script>
+
+</body>
+</html>
