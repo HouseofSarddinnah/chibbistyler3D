@@ -1,10 +1,9 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChibiStyler 3D Generator</title>
+<title>ChibiStyler 3D + Fashion Generator</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -16,16 +15,16 @@
         align-items: center;
     }
     h1 {
-        color: neongreen;
+        color: #39ff14;
         text-align: center;
         margin-bottom: 20px;
     }
     label {
         display: block;
         margin: 10px 0 5px;
-        color: #00ffea; /* neon cyan */
+        color: #00ffea;
     }
-    select, button, textarea {
+    select, input[type=color], button, textarea {
         margin-bottom: 15px;
         padding: 8px;
         font-size: 1em;
@@ -38,13 +37,16 @@
         font-weight: bold;
         cursor: pointer;
     }
-    button:hover {
-        opacity: 0.85;
-    }
+    button:hover { opacity: 0.85; }
     textarea {
         width: 100%;
-        max-width: 600px;
-        height: 120px;
+        max-width: 700px;
+        height: 180px;
+    }
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 </style>
 </head>
@@ -63,7 +65,6 @@
     <option>Long</option>
     <option>Ponytail</option>
 </select>
-
 <label for="hairColor">Hair Color:</label>
 <select id="hairColor">
     <option>Natural</option>
@@ -86,7 +87,7 @@
     <option>Tan</option>
 </select>
 
-<!-- Eyes -->
+<!-- Eyes & Makeup -->
 <label for="eyeShape">Eye Shape:</label>
 <select id="eyeShape">
     <option>Almond</option>
@@ -94,7 +95,6 @@
     <option>Wide</option>
     <option>Monolid</option>
 </select>
-
 <label for="eyeColor">Eye Color:</label>
 <select id="eyeColor">
     <option>Brown</option>
@@ -102,6 +102,29 @@
     <option>Green</option>
     <option>Hazel</option>
     <option>Grey</option>
+</select>
+<label for="eyelashes">Eyelashes:</label>
+<select id="eyelashes">
+    <option>Natural</option>
+    <option>Voluminous</option>
+    <option>Extra-long</option>
+</select>
+<label for="eyeshadow">Eyeshadow Color:</label>
+<select id="eyeshadow">
+    <option>None</option>
+    <option>Natural</option>
+    <option>Pastel</option>
+    <option>Vibrant</option>
+</select>
+
+<!-- Lips / Makeup -->
+<label for="lipstick">Lipstick Color:</label>
+<select id="lipstick">
+    <option>Nude</option>
+    <option>Pink</option>
+    <option>Red</option>
+    <option>Burgundy</option>
+    <option>Bold Neon</option>
 </select>
 
 <!-- Outfit -->
@@ -113,6 +136,14 @@
     <option>Luxury</option>
     <option>Sportswear</option>
 </select>
+<label for="jacket">Jacket / Outerwear:</label>
+<select id="jacket">
+    <option>None</option>
+    <option>Trench Coat</option>
+    <option>Blazer</option>
+    <option>Leather Jacket</option>
+    <option>Hoodie</option>
+</select>
 
 <!-- Shoes -->
 <label for="shoes">Shoes:</label>
@@ -122,18 +153,49 @@
     <option>Loafers</option>
     <option>Timberlands</option>
     <option>Dress Shoes</option>
+    <option>Wedge Shoes</option>
     <option>Boots</option>
     <option>Sandals</option>
 </select>
+<label for="shoeColor">Shoe Color:</label>
+<select id="shoeColor">
+    <option>Black</option>
+    <option>White</option>
+    <option>Red</option>
+    <option>Blue</option>
+    <option>Gold</option>
+    <option>Silver</option>
+</select>
 
 <!-- Accessories -->
-<label for="accessories">Accessories:</label>
-<select id="accessories">
-    <option>Jewelry</option>
-    <option>Glasses</option>
-    <option>Headgear (cap, bow, headband)</option>
-    <option>None</option>
+<label>Jewelry:</label>
+<div class="checkbox-group">
+    <label><input type="checkbox" class="jewelry" value="Hoop Earrings"> Hoop Earrings</label>
+    <label><input type="checkbox" class="jewelry" value="Necklace"> Necklace</label>
+    <label><input type="checkbox" class="jewelry" value="Bracelets"> Bracelets</label>
+    <label><input type="checkbox" class="jewelry" value="Rings"> Rings</label>
+</div>
+
+<label>Eyewear:</label>
+<div class="checkbox-group">
+    <label><input type="checkbox" class="eyewear" value="Glasses"> Glasses</label>
+</div>
+<label for="frameColor">Frame Color:</label>
+<select id="frameColor">
+    <option>Black</option>
+    <option>Gold</option>
+    <option>Silver</option>
+    <option>Red</option>
+    <option>Blue</option>
 </select>
+
+<label>Headgear:</label>
+<div class="checkbox-group">
+    <label><input type="checkbox" class="headgear" value="Cap"> Cap</label>
+    <label><input type="checkbox" class="headgear" value="Bow"> Bow</label>
+    <label><input type="checkbox" class="headgear" value="Hair Clip"> Hair Clip</label>
+    <label><input type="checkbox" class="headgear" value="Headband"> Headband</label>
+</div>
 
 <!-- Pose -->
 <label for="pose">Pose:</label>
@@ -153,10 +215,11 @@
     <option>High-Aesthetic Room</option>
     <option>Salon</option>
     <option>Vibrant City</option>
+    <option>White</option>
 </select>
 
-<!-- Lighting / Effects -->
-<label for="effects">Lighting / Effects:</label>
+<!-- Effects / Styling -->
+<label for="effects">Effects / Styling:</label>
 <select id="effects">
     <option>Glossy 3D</option>
     <option>Vibrant Styling</option>
@@ -185,34 +248,25 @@
 <script>
 function generatePrompt() {
     const preset = document.getElementById('preset').value;
-    if(preset) {
-        document.getElementById('promptOutput').value = preset;
+    if (preset) {
+        document.getElementById('promptOutput').value = "Chibi-style character, full body, expressive face, " + preset;
         return;
     }
+
     const hair = document.getElementById('hair').value;
     const hairColor = document.getElementById('hairColor').value;
     const skinTone = document.getElementById('skinTone').value;
     const eyeShape = document.getElementById('eyeShape').value;
     const eyeColor = document.getElementById('eyeColor').value;
+    const eyelashes = document.getElementById('eyelashes').value;
+    const eyeshadow = document.getElementById('eyeshadow').value;
+    const lipstick = document.getElementById('lipstick').value;
     const outfit = document.getElementById('outfit').value;
+    const jacket = document.getElementById('jacket').value;
     const shoes = document.getElementById('shoes').value;
-    const accessories = document.getElementById('accessories').value;
+    const shoeColor = document.getElementById('shoeColor').value;
     const pose = document.getElementById('pose').value;
     const background = document.getElementById('background').value;
     const effects = document.getElementById('effects').value;
 
-    const prompt = `${hairColor} ${hair} hair, ${skinTone} skin tone, ${eyeShape} eyes with ${eyeColor} pupils, ${outfit} outfit, ${shoes}, ${accessories}, ${pose} pose, ${background} background, ${effects}.`;
-    document.getElementById('promptOutput').value = prompt;
-}
-
-function copyPrompt() {
-    const promptBox = document.getElementById('promptOutput');
-    promptBox.select();
-    promptBox.setSelectionRange(0, 99999);
-    document.execCommand('copy');
-    alert("Prompt copied to clipboard!");
-}
-</script>
-
-</body>
-</html>
+    // Collect
