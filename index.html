@@ -1,40 +1,33 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>ChibiStyler 3D — Designer-Only (All Features)</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChibiStyler 3D — Designer-Only</title>
 <style>
 :root{
   --bg:#050507;
   --panel:#0b0b0c;
   --muted:#1f1f22;
-  --accent1:#39ff14; 
+  --accent1:#39ff14;
   --accent2:#7af0e3;
   --accent3:#b77df7;
   --text:#e9fff8;
-  --select-w:260px;
   --radius:8px;
 }
 *{box-sizing:border-box}
 body{
   margin:0;
-  font-family: Inter, system-ui, Arial, sans-serif;
+  font-family: Arial, sans-serif;
   background:linear-gradient(180deg,#050507,#0b0b0f);
   color:var(--text);
   padding:18px;
-  display:flex;
-  gap:18px;
-  min-height:100vh;
-  align-items:flex-start;
 }
 .left {
-  width:420px;
-  max-height:calc(100vh - 36px);
-  overflow:auto;
+  max-width:480px;
   background:linear-gradient(180deg,#0f0f10,#0b0b0b);
   border-radius:10px;
-  padding:14px;
+  padding:20px;
   border:1px solid #111;
 }
 h1{ margin:0 0 8px 0; font-size:20px; color:var(--accent1) }
@@ -42,7 +35,6 @@ h2{ color:var(--accent2); font-size:13px; margin:12px 0 8px; }
 label{ display:block; font-size:13px; color:#caffe8; margin-bottom:6px; }
 .select-wrap{ position:relative; display:inline-block; width:100%; margin-bottom:10px; }
 .select-wrap select, .select-wrap input[type="text"], .select-wrap input[type="color"]{
-  -webkit-appearance:none; appearance:none;
   width:100%;
   padding:8px 36px 8px 12px;
   border-radius:8px;
@@ -52,100 +44,64 @@ label{ display:block; font-size:13px; color:#caffe8; margin-bottom:6px; }
   font-size:13px;
 }
 .select-wrap::after{ content:"▼"; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:#bfe; font-size:11px; pointer-events:none; }
-.row{ display:flex; gap:8px; align-items:center; margin-bottom:8px; flex-wrap:wrap }
-.small{ font-size:12px; color:#bfe; }
-.checkbox-group{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
-.checkbox-group label{ background:transparent; padding:6px 8px; border-radius:6px; border:1px solid #1a1a1a; font-size:13px; cursor:pointer; }
-.slider-row{ display:flex; gap:8px; align-items:center; margin-bottom:12px; }
-input[type="range"]{ width:190px; }
 .actions{ display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
 button.sleek{
   background:#444; color:#fff; border:none; padding:6px 12px; border-radius:8px; cursor:pointer;
   display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:13px;
 }
-button.sleek::after{ content:"▼"; font-size:11px; opacity:0.9 }
 button.sleek:hover{ background:#666 }
-.right{
-  flex:1; min-width:520px; max-width:1000px; background:linear-gradient(180deg,#090909,#0b0b0c); border-radius:10px; padding:16px; border:1px solid #111; max-height:calc(100vh - 36px); overflow:auto;
-}
-.preview-top{ display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
-.live-preview{ width:360px; height:460px; background:linear-gradient(180deg,#101014,#09090b); border-radius:10px; border:1px solid #1a1a1a; display:flex; align-items:center; justify-content:center; color:#789; font-size:13px; padding:12px; text-align:center }
-.gallery{ display:flex; gap:8px; overflow-x:auto; padding:8px 0; }
-.gallery img{ width:110px; height:140px; object-fit:cover; border-radius:8px; border:1px solid #222 }
-.prompt-box{ margin-top:12px; }
 textarea#promptOutput{
-  width:100%; height:220px; background:#060607; border:1px solid #222; padding:12px; font-size:13px; color:#dff; border-radius:8px; resize:vertical;
-  white-space:pre-wrap;
+  width:100%; height:250px; background:#060607; border:1px solid #222; padding:12px; font-size:13px; color:#dff; border-radius:8px; resize:vertical; white-space:pre-wrap;
 }
-.meta-row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:10px; }
 .note{ font-size:12px; color:#89ffd6; margin-top:10px; }
-@media (max-width:980px){
-  body{ flex-direction:column; padding:12px }
-  .left, .right{ width:100% }
-}
 </style>
 </head>
 <body>
-<aside class="left">
+<div class="left">
   <h1>ChibiStyler 3D — Designer Edition</h1>
 
-  <!-- Core & Presets -->
+  <!-- Preset Selector -->
   <h2>Core & Preset</h2>
   <label>Preset Library</label>
-  <div class="select-wrap"><select id="preset">
-    <option value="">— Custom / No preset —</option>
-    <option value="NYC Street Luxe">NYC Street Luxe</option>
-    <option value="Braided Boss Babe">Braided Boss Babe</option>
-    <option value="TikTok Trendsetter">TikTok Trendsetter</option>
-    <option value="Notebook Cover Glam">Notebook Cover Glam</option>
-    <option value="Digital Dollhouse">Digital Dollhouse</option>
-    <option value="Summer Social Tee">Summer Social Tee</option>
-    <option value="Halloween Spooky Tee">Halloween Spooky Tee</option>
-    <option value="Christmas Cozy">Christmas Cozy</option>
-    <option value="Valentine Chic">Valentine Chic</option>
-    <option value="Pride Parade">Pride Parade</option>
-  </select></div>
+  <div class="select-wrap">
+    <select id="preset">
+      <option value="">— Custom / No preset —</option>
+      <option value="NYC Street Luxe">NYC Street Luxe</option>
+      <option value="Braided Boss Babe">Braided Boss Babe</option>
+      <option value="TikTok Trendsetter">TikTok Trendsetter</option>
+      <option value="Notebook Cover Glam">Notebook Cover Glam</option>
+      <option value="Digital Dollhouse">Digital Dollhouse</option>
+      <option value="Summer Social Tee">Summer Social Tee</option>
+      <option value="Halloween Spooky Tee">Halloween Spooky Tee</option>
+      <option value="Christmas Cozy">Christmas Cozy</option>
+      <option value="Valentine Chic">Valentine Chic</option>
+      <option value="Pride Parade">Pride Parade</option>
+    </select>
+  </div>
 
-  <!-- ... keep all your previous inputs, sliders, checkboxes, etc. exactly the same ... -->
+  <!-- Example Sliders / Inputs -->
+  <h2>Attributes</h2>
+  <label>Pose Energy</label>
+  <input type="range" id="poseEnergy" min="1" max="10" value="5">
+  <label>Mood Intensity</label>
+  <input type="range" id="moodIntensity" min="1" max="10" value="5">
+  <label>Background Color</label>
+  <input type="color" id="bgColor" value="#111111">
 
-  <!-- Actions buttons (fixed) -->
+  <!-- Actions -->
   <div class="actions">
-    <button class="sleek" id="generateBtn" type="button">Generate Prompt</button>
-    <button class="sleek" id="copyBtn" type="button">Copy Prompt</button>
-    <button class="sleek" id="downloadBtn" type="button">Download Prompt</button>
+    <button class="sleek" id="generateBtn">Generate Prompt</button>
+    <button class="sleek" id="copyBtn">Copy Prompt</button>
+    <button class="sleek" id="downloadBtn">Download Prompt</button>
   </div>
 
-  <div class="note">Designer-only prompts — ready to paste into Microsoft Designer. Base style locked: Pixar/Disney-inspired urban glam chibi (no kawaii/anime).</div>
-</aside>
-
-<main class="right">
-  <div class="preview-top">
-    <div style="display:flex;flex-direction:column;gap:8px;">
-      <div style="font-size:18px;color:var(--accent2)">Live Prompt Preview</div>
-      <div class="meta-row small"><div>Style: <strong id="previewStyle">Urban Glam Chibi (Designer)</strong></div><div>|</div><div>Archetype: <strong id="previewArchetype">Trendsetter</strong></div><div>|</div><div>Mood: <strong id="previewMood">Sassy</strong></div></div>
-    </div>
-
-    <div style="display:flex;gap:12px;align-items:center">
-      <div class="live-preview" id="livePreview">Thumbnail Preview<br><small style="color:#666">(placeholders)</small></div>
-      <div style="width:300px">
-        <div class="gallery" id="gallery">
-          <img src="https://dummyimage.com/120x160/222/fff&text=Sample1" alt="">
-          <img src="https://dummyimage.com/120x160/333/fff&text=Sample2" alt="">
-          <img src="https://dummyimage.com/120x160/444/fff&text=Sample3" alt="">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="prompt-box">
-    <textarea id="promptOutput" readonly placeholder="Designer-ready prompt will appear here..."></textarea>
-    <div class="meta-row"><div class="small">Copy and paste the prompt into Microsoft Designer. The output is a compact block of comma-separated keywords (no sentences).</div></div>
-  </div>
-</main>
+  <textarea id="promptOutput" readonly placeholder="Designer-ready prompt will appear here..."></textarea>
+  <div class="note">Copy and paste this prompt into Microsoft Designer. Base style: Urban Glam Chibi, Archetype: Trendsetter, Mood: Sassy.</div>
+</div>
 
 <script>
-/* ---------- Base & Presets ---------- */
-const baseStyle = "Stylized urban glam chibi, Afrocentric features, Pixar/Disney-inspired, bold makeup, glossy oversized eyes and lips, notebook cover aesthetic, digital cartoon illustration, bold outlines, vibrant colors, NOT kawaii, NOT anime";
+// Base style
+const baseStyle = "Stylized urban glam chibi, Afrocentric features, Pixar/Disney-inspired, bold makeup, glossy oversized eyes and lips, notebook cover aesthetic, bold outlines, vibrant colors, NOT kawaii, NOT anime";
 const presetMap = {
   "NYC Street Luxe": "fur trim, luxe accessories, Timberland-style boots, bold makeup, attitude",
   "Braided Boss Babe": "long braids, gold hoops, crop top, confident pose",
@@ -159,35 +115,40 @@ const presetMap = {
   "Pride Parade": "rainbow colors, pride accessories, celebration vibe"
 };
 
-/* ---------- Utility functions ---------- */
-function mapSlider(value, lowLabel, midLabel, highLabel){
-  const v = Number(value);
-  if(v <= 3) return lowLabel;
-  if(v <= 7) return midLabel;
-  return highLabel;
-}
-function gatherChecks(selector){
-  return Array.from(document.querySelectorAll(selector+':checked')).map(n => n.value);
-}
-
-/* ---------- Generate prompt ---------- */
+// Generate prompt
 function generatePrompt(){
-  // all your previous generatePrompt code exactly as before
-  document.getElementById('promptOutput').value = "✅ Works now with buttons!";
+  const preset = document.getElementById("preset").value;
+  const pose = document.getElementById("poseEnergy").value;
+  const mood = document.getElementById("moodIntensity").value;
+  const bg = document.getElementById("bgColor").value;
+
+  let presetText = presetMap[preset] || "custom outfit, accessories, personality-driven pose";
+  let prompt = `${baseStyle}, ${presetText}, pose energy level ${pose}, mood intensity ${mood}, background color ${bg}`;
+  
+  document.getElementById("promptOutput").value = prompt;
 }
 
-/* ---------- Copy / Download ---------- */
-function copyPrompt(){
-  const t = document.getElementById('promptOutput').value;
-  if(!t){ alert('Generate a prompt first'); return; }
-  navigator.clipboard.writeText(t).then(()=>alert('Prompt copied to clipboard — paste into Microsoft Designer'));
-}
-function downloadPrompt(){
-  const text = document.getElementById('promptOutput').value;
-  if(!text){ alert('Generate a prompt first'); return; }
+// Copy to clipboard
+document.getElementById("copyBtn").addEventListener("click", ()=>{
+  const t = document.getElementById("promptOutput").value;
+  if(!t){ alert("Generate a prompt first"); return; }
+  navigator.clipboard.writeText(t).then(()=>alert("Prompt copied to clipboard!"));
+});
+
+// Download prompt
+document.getElementById("downloadBtn").addEventListener("click", ()=>{
+  const text = document.getElementById("promptOutput").value;
+  if(!text){ alert("Generate a prompt first"); return; }
   const blob = new Blob([text], {type:'text/plain'});
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = url;
-  a.download = 'chibistyler_designer_prompt.txt';
+  a.download = "chibistyler_prompt.txt";
   a.click();
+});
+
+// Generate button
+document.getElementById("generateBtn").addEventListener("click", generatePrompt);
+</script>
+</body>
+</html>
