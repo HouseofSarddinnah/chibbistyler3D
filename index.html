@@ -1,166 +1,458 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>ChibiStyler 3D — Designer-Only (Right Side Only)</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Designer Prompt Generator — Detailed Edition</title>
 <style>
-:root{
-  --bg:#050507;
-  --accent1:#39ff14;
-  --accent2:#7af0e3;
-  --text:#e9fff8;
-  --radius:8px;
+:root {
+  --bg: #171924;
+  --panel: #232538;
+  --muted: #292b3d;
+  --accent1: #39ff14;
+  --accent2: #7af0e3;
+  --accent3: #b77df7;
+  --text: #fafffa;
+  --select-width: 220px;
+  --radius: 10px;
 }
-body{
-  margin:0;
-  font-family:Inter, system-ui, Arial, sans-serif;
-  background:linear-gradient(180deg,#050507,#0b0b0f);
-  color:var(--text);
-  display:flex;
-  justify-content:center;
-  padding:20px;
-  min-height:100vh;
+body {
+  margin: 0;
+  font-family: Inter, system-ui, Arial, sans-serif;
+  background: linear-gradient(180deg, #1a1c26, #171924);
+  color: var(--text);
+  display: flex;
+  min-height: 100vh;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 24px;
 }
-.right{
-  width:600px;
-  background:linear-gradient(180deg,#090909,#0b0b0c);
-  border-radius:10px;
-  padding:20px;
-  border:1px solid #111;
+h1 {
+  color: var(--accent1);
+  font-size: 22px;
+  margin-bottom: 12px;
 }
-.preview-top{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  align-items:flex-start;
-  margin-bottom:12px;
+h2 {
+  color: var(--accent2);
+  font-size: 14px;
+  margin: 18px 0 10px 0;
 }
-.live-preview{
-  width:360px;
-  height:460px;
-  background:linear-gradient(180deg,#101014,#09090b);
-  border-radius:10px;
-  border:1px solid #1a1a1a;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#789;
-  font-size:13px;
-  padding:12px;
-  text-align:center;
+
+/* Left panel: controls */
+.left {
+  width: 440px;
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  background: linear-gradient(180deg, #232538, #181924);
+  border-radius: var(--radius);
+  padding: 18px;
+  border: 1px solid #222;
 }
-.gallery{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding:8px 0;
+label {
+  font-size: 14px;
+  color: #a6ffe4;
+  margin-bottom: 6px;
+  display: block;
 }
-.gallery img{
-  width:110px;
-  height:140px;
-  object-fit:cover;
-  border-radius:8px;
-  border:1px solid #222;
+.select-wrap {
+  position: relative;
+  margin-bottom: 12px;
 }
-.prompt-box textarea{
-  width:100%;
-  height:220px;
-  background:#060607;
-  border:1px solid #222;
-  padding:12px;
-  font-size:13px;
-  color:#dff;
-  border-radius:8px;
-  resize:vertical;
-  white-space:pre-wrap;
+select, input[type="text"], input[type="color"] {
+  appearance: none;
+  width: 100%;
+  padding: 9px 38px 9px 14px;
+  border-radius: var(--radius);
+  border: 1px solid #232326;
+  background: #181824;
+  color: var(--text);
+  font-size: 14px;
 }
-.actions{
-  display:flex;
-  gap:8px;
-  margin-bottom:12px;
-  flex-wrap:wrap;
+.select-wrap::after {
+  content: "▼";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #98fefe;
+  font-size: 12px;
+  pointer-events: none;
 }
-button.sleek{
-  background:#444;
-  color:#fff;
-  border:none;
-  padding:6px 12px;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:600;
-  font-size:13px;
+.row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+
+/* Sliders */
+input[type="range"] { width: 220px; }
+.slider-row { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
+.small { font-size: 13px; color: #aef; }
+
+/* Checkbox groups */
+.checkbox-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.checkbox-group label { background: none; padding: 7px 10px; border-radius: 8px; border: 1px solid #212b41; font-size: 14px; cursor: pointer; }
+
+/* Actions */
+.actions { display: flex; gap: 10px; margin-top: 16px; }
+button {
+  background: #444;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background 0.15s;
 }
-button.sleek:hover{ background:#666 }
-.meta-row{ font-size:12px; color:#89ffd6; margin-top:8px; }
+button:hover { background: #666; }
+
+/* Right: prompt display & preview */
+.right {
+  flex: 1;
+  min-width: 520px;
+  max-width: 1100px;
+  background: linear-gradient(180deg,#232538,#181924);
+  border-radius: var(--radius);
+  padding: 22px;
+  border: 1px solid #222;
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+}
+#promptOutput {
+  width: 100%;
+  height: 240px;
+  background: #15161b;
+  border: 1px solid #333;
+  padding: 14px;
+  font-size: 15px;
+  color: #dff;
+  border-radius: var(--radius);
+  resize: vertical;
+  white-space: pre-wrap;
+  margin-bottom: 12px;
+}
+.meta-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+.note { font-size: 14px; color: #88ffe8; margin-top: 10px; }
+.live-preview { width: 340px; height: 440px; background: linear-gradient(180deg,#232538,#111); border-radius: var(--radius); border: 1px solid #2a2a3d; display: flex; align-items: center; justify-content: center; color: #789; font-size: 14px; text-align: center; margin-bottom: 15px;}
+.gallery { display: flex; gap: 10px; overflow-x: auto; padding: 9px 0; }
+.gallery img { width: 105px; height: 140px; object-fit: cover; border-radius: 8px; border: 1px solid #222; }
+
+@media (max-width: 1020px) {
+  body { flex-direction: column; padding: 12px; }
+  .left, .right { width: 100%; }
+}
 </style>
 </head>
 <body>
 
-<main class="right">
-  <div class="preview-top">
-    <div style="display:flex;flex-direction:column;gap:8px;">
-      <div style="font-size:18px;color:var(--accent2)">Live Prompt Preview</div>
-      <div class="meta-row"><strong>Style:</strong> Urban Glam Chibi | <strong>Archetype:</strong> Trendsetter | <strong>Mood:</strong> Sassy</div>
+<!-- LEFT PANEL: PROMPT CONTROLS -->
+<aside class="left">
+  <h1>Designer Prompt Generator</h1>
+
+  <!-- Preset Styles -->
+  <h2>Preset</h2>
+  <label>Choose Theme</label>
+  <div class="select-wrap"><select id="preset">
+    <option value="">— None —</option>
+    <option value="NYC Street Luxe">NYC Street Luxe</option>
+    <option value="Braided Boss Babe">Braided Boss Babe</option>
+    <option value="TikTok Trendsetter">TikTok Trendsetter</option>
+    <option value="Notebook Cover Glam">Notebook Cover Glam</option>
+    <option value="Digital Dollhouse">Digital Dollhouse</option>
+    <option value="Festival Neon">Festival Neon</option>
+    <option value="Autumn Cozy">Autumn Cozy</option>
+  </select></div>
+
+  <!-- Character & Face -->
+  <h2>Character</h2>
+  <div class="row">
+    <div style="flex:1">
+      <label>Archetype</label>
+      <div class="select-wrap"><select id="archetype">
+        <option>Trendsetter</option>
+        <option>Introvert Dreamer</option>
+        <option>Boss Energy</option>
+        <option>Creative Rebel</option>
+        <option>Sweetheart</option>
+      </select></div>
     </div>
-    <div style="display:flex;gap:12px;align-items:center">
-      <div class="live-preview" id="livePreview">
-        Thumbnail Preview<br>
-        <small style="color:#666">(placeholders)</small>
-      </div>
-      <div style="width:300px">
-        <div class="gallery" id="gallery">
-          <img src="https://dummyimage.com/120x160/222/fff&text=Sample1" alt="">
-          <img src="https://dummyimage.com/120x160/333/fff&text=Sample2" alt="">
-          <img src="https://dummyimage.com/120x160/444/fff&text=Sample3" alt="">
-        </div>
-      </div>
+    <div style="flex:1">
+      <label>Expression</label>
+      <div class="select-wrap"><select id="expression">
+        <option>Neutral confident</option>
+        <option>Smirk</option>
+        <option>Pout</option>
+        <option>Wink</option>
+        <option>Raised brow</option>
+        <option>Laughing (eyes closed)</option>
+      </select></div>
     </div>
   </div>
 
+  <!-- Face sliders -->
+  <label>Eye Size</label>
+  <div class="slider-row"><input id="eyeSize" type="range" min="1" max="10" value="7"> <div class="small" id="eyeSizeLabel">Large</div></div>
+  <label>Lip Fullness</label>
+  <div class="slider-row"><input id="lipFullness" type="range" min="1" max="10" value="7"> <div class="small" id="lipFullLabel">Full</div></div>
+  <label>Glossiness</label>
+  <div class="slider-row"><input id="glossiness" type="range" min="1" max="10" value="8"> <div class="small" id="glossLabel">Ultra glossy</div></div>
+  <label>Makeup Intensity</label>
+  <div class="slider-row"><input id="makeupIntensity" type="range" min="1" max="10" value="7"> <div class="small" id="makeupLabel">Medium</div></div>
+
+  <!-- Hair -->
+  <h2>Hair & Color</h2>
+  <label>Style</label>
+  <div class="select-wrap"><select id="hair">
+    <option>Voluminous curly buns</option>
+    <option>Long braids</option>
+    <option>High bun</option>
+    <option>Coily afro</option>
+    <option>Pixie</option>
+    <option>Bob</option>
+  </select></div>
+  <label>Texture</label>
+  <div class="select-wrap"><select id="hairTexture">
+    <option>Curly</option>
+    <option>Braided</option>
+    <option>Sleek</option>
+    <option>Coily</option>
+  </select></div>
+  <label>Color</label>
+  <div class="row">
+    <div style="flex:1" class="select-wrap"><select id="hairColor">
+      <option>Natural black</option>
+      <option>Brown</option>
+      <option>Blonde tips</option>
+      <option>Pastel mix</option>
+      <option>Vibrant neon</option>
+    </select></div>
+    <div style="width:56px"><input id="hairAccent" type="color" value="#ffd700"></div>
+  </div>
+
+  <!-- Outfit -->
+  <h2>Outfit & Accessories</h2>
+  <label>Top</label>
+  <div class="select-wrap"><select id="top">
+    <option>Crop top</option>
+    <option>Oversized hoodie</option>
+    <option>Graphic hoodie</option>
+    <option>Off-shoulder sweater</option>
+    <option>Denim vest with pins</option>
+  </select></div>
+  <label>Bottom</label>
+  <div class="select-wrap"><select id="bottom">
+    <option>Ripped skinny jeans</option>
+    <option>Pleated mini skirt with chain</option>
+    <option>Cargo pants</option>
+    <option>Holographic leggings</option>
+  </select></div>
+  <label>Outerwear</label>
+  <div class="select-wrap"><select id="outerwear">
+    <option>None</option>
+    <option>Oversized faux fur coat</option>
+    <option>Puffer jacket</option>
+    <option>Denim jacket with faux shearling</option>
+  </select></div>
+  <label>Fabric / Texture</label>
+  <div class="select-wrap"><select id="fabric">
+    <option>Satin</option>
+    <option>Velvet</option>
+    <option>Denim</option>
+    <option>Mesh</option>
+    <option>Holographic shimmer</option>
+  </select></div>
+  <label>Accessories</label>
+  <div class="checkbox-group">
+    <label><input type="checkbox" class="accessory" value="Hoop earrings">Hoop earrings</label>
+    <label><input type="checkbox" class="accessory" value="Layered necklaces">Necklaces</label>
+    <label><input type="checkbox" class="accessory" value="Bracelets">Bracelets</label>
+    <label><input type="checkbox" class="accessory" value="Rings">Rings</label>
+    <label><input type="checkbox" class="accessory" value="Smartphone">Smartphone</label>
+  </div>
+
+  <!-- Pose/Scene -->
+  <h2>Pose & Scene</h2>
+  <label>Pose</label>
+  <div class="select-wrap"><select id="pose">
+    <option>Selfie mode</option>
+    <option>Squatting</option>
+    <option>Sitting on floor</option>
+    <option>Standing</option>
+    <option>Action</option>
+    <option>Peace sign</option>
+  </select></div>
+  <label>Mood</label>
+  <div class="select-wrap"><select id="mood">
+    <option>Sassy</option>
+    <option>Playful</option>
+    <option>Boss Babe</option>
+    <option>Dreamy</option>
+    <option>Fierce</option>
+  </select></div>
+  <label>Background/Scene</label>
+  <div class="select-wrap"><select id="scene">
+    <option>Gradient sparkle</option>
+    <option>High-aesthetic room</option>
+    <option>Salon</option>
+    <option>City street</option>
+    <option>Rooftop</option>
+    <option>Magazine cover</option>
+    <option>Transparent / background removed</option>
+  </select></div>
+  <label>Effects</label>
+  <div class="select-wrap"><select id="effects">
+    <option>Glossy 3D</option>
+    <option>Floating pastel elements</option>
+    <option>Notebook aesthetic</option>
+    <option>Cinematic lighting</option>
+  </select></div>
+  <label>Watermark</label>
+  <input id="watermark" type="text" placeholder="@yourname" style="width:100%; margin-bottom:10px; padding:9px; border-radius:10px; border:1px solid #222; background:#1a1c26; color:var(--text);">
+
+  <!-- Generate, Copy, Download buttons -->
   <div class="actions">
-    <button class="sleek" id="generateBtn">Generate Prompt</button>
-    <button class="sleek" id="copyBtn">Copy Prompt</button>
-    <button class="sleek" id="downloadBtn">Download Prompt</button>
+    <button onclick="generatePrompt()">Generate Prompt</button>
+    <button onclick="copyPrompt()">Copy</button>
+    <button onclick="downloadPrompt()">Download</button>
   </div>
 
-  <div class="prompt-box">
-    <textarea id="promptOutput" readonly placeholder="Designer-ready prompt will appear here..."></textarea>
-    <div class="meta-row">Copy and paste this prompt into Microsoft Designer. Compact block of comma-separated keywords.</div>
+  <div class="note">Copy-paste your designer-ready prompt to Microsoft Designer. Output: compact, comma-separated keywords (no sentences).</div>
+</aside>
+
+<!-- RIGHT: PROMPT OUTPUT & PREVIEW -->
+<main class="right">
+  <div class="live-preview" id="livePreview">Live preview area<br><small style="color:#6aa">(image preview placeholder)</small></div>
+  <textarea id="promptOutput" readonly placeholder="Your prompt will appear here..."></textarea>
+  <div class="meta-row small">
+    Copy and paste this prompt into Microsoft Designer's prompt field for best results.
   </div>
 </main>
 
 <script>
+/* BASE STYLE: Always included first for Microsoft Designer */
 const baseStyle = "Stylized urban glam chibi, Afrocentric features, Pixar/Disney-inspired, bold makeup, glossy oversized eyes and lips, notebook cover aesthetic, digital cartoon illustration, bold outlines, vibrant colors, NOT kawaii, NOT anime";
 
+/* PRESET map: inject designer keywords */
+const presetMap = {
+  "NYC Street Luxe": "fur trim, luxe accessories, Timberland boots, bold makeup, attitude",
+  "Braided Boss Babe": "long braids, gold hoops, crop top, confident",
+  "TikTok Trendsetter": "selfie-ready, neon, smartphone accessory, viral",
+  "Notebook Cover Glam": "glossy eyes, pastel gradient, expressive stance, sparkles",
+  "Digital Dollhouse": "layered fashion, surreal, floating sparkles",
+  "Festival Neon": "neon, glitter, festival accessories",
+  "Autumn Cozy": "warm tones, layered outerwear, scarf"
+};
+
+/* Slider-to-text mapping utility */
+function mapSlider(value, lowLabel, midLabel, highLabel){
+  const v = Number(value);
+  if(v <= 3) return lowLabel;
+  if(v <= 7) return midLabel;
+  return highLabel;
+}
+
+/* Gather checked boxes */
+function gatherChecks(selector){
+  return Array.from(document.querySelectorAll(selector + ':checked')).map(n => n.value);
+}
+
+/* Generate prompt from selections */
 function generatePrompt(){
-  // example prompt with placeholder details
-  const prompt = `${baseStyle}, trendy outfit, confident pose, vibrant background, accessories, glossy eyes, sassy mood, urban glam details`;
-  document.getElementById('promptOutput').value = prompt;
+  // Input values
+  const preset = document.getElementById('preset').value;
+  const archetype = document.getElementById('archetype').value;
+  const expression = document.getElementById('expression').value;
+  const eyeSize = document.getElementById('eyeSize').value;
+  const lipFullness = document.getElementById('lipFullness').value;
+  const glossiness = document.getElementById('glossiness').value;
+  const makeupIntensity = document.getElementById('makeupIntensity').value;
+  const hair = document.getElementById('hair').value;
+  const hairTexture = document.getElementById('hairTexture').value;
+  const hairColor = document.getElementById('hairColor').value;
+  const hairAccent = document.getElementById('hairAccent').value;
+  const top = document.getElementById('top').value;
+  const bottom = document.getElementById('bottom').value;
+  const outerwear = document.getElementById('outerwear').value;
+  const fabric = document.getElementById('fabric').value;
+  const accessories = gatherChecks('.accessory');
+  const pose = document.getElementById('pose').value;
+  const mood = document.getElementById('mood').value;
+  const scene = document.getElementById('scene').value;
+  const effects = document.getElementById('effects').value;
+  const watermark = (document.getElementById('watermark').value || '').trim();
+
+  // Slider value mapping
+  const eyeDesc = mapSlider(eyeSize, 'small glossy eyes', 'large glossy eyes', 'oversized glossy eyes');
+  const lipDesc = mapSlider(lipFullness, 'subtle lips', 'full lips', 'plump glossy lips');
+  const glossDesc = mapSlider(glossiness, 'matte lips', 'glossy lips', 'ultra glossy lips');
+  const makeupDesc = mapSlider(makeupIntensity, 'light makeup', 'medium makeup', 'heavy glam makeup');
+
+  // Build prompt parts
+  const parts = [];
+  parts.push(baseStyle);
+  // preset
+  if (preset && presetMap[preset]) {
+    parts.push(preset + " aesthetic");
+    parts.push(presetMap[preset]);
+  } else if (preset) {
+    parts.push(preset + " aesthetic");
+  }
+  if (archetype) parts.push(archetype.toLowerCase() + " vibe");
+  if (expression) parts.push(expression.toLowerCase());
+  parts.push(eyeDesc);
+  parts.push(lipDesc);
+  parts.push(glossDesc);
+  parts.push(makeupDesc);
+  if (hair) parts.push(hair);
+  if (hairTexture) parts.push(hairTexture + " hair texture");
+  if (hairColor) parts.push(hairColor.toLowerCase());
+  if (hairAccent) parts.push("hair accent " + hairAccent);
+  if (top) parts.push(top);
+  if (bottom) parts.push(bottom);
+  if (outerwear && outerwear !== "None") parts.push(outerwear);
+  if (fabric) parts.push(fabric);
+  if (accessories.length) parts.push(...accessories);
+  if (pose) parts.push(pose);
+  if (mood) parts.push(mood + " vibe");
+  if (scene) parts.push(scene);
+  if (effects) parts.push(effects);
+  if (watermark) parts.push("creator watermark:" + watermark);
+
+  // Remove duplicates, preserve order
+  const seen = new Set();
+  const finalParts = parts.filter(p => {
+    const key = (p || '').toString().trim();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  // Output
+  document.getElementById('promptOutput').value = finalParts.join(', ');
+  // Preview update example
+  document.getElementById('livePreview').innerHTML =
+    "<b style='color:#39ff14'>" + archetype + "</b><br><span style='color:#7af0e3'>" +
+    hair + ", " + hairColor + "</span><br><span style='font-size:13px;color:#aef'>" + pose + ", " + mood + "</span>";
+  updateSliderLabels();
 }
 
-function copyPrompt(){
+/* Copy prompt to clipboard */
+function copyPrompt() {
   const t = document.getElementById('promptOutput').value;
-  if(!t){ alert('Generate a prompt first'); return; }
-  navigator.clipboard.writeText(t).then(()=>alert('Prompt copied to clipboard'));
+  if (!t) { alert('Generate a prompt first'); return; }
+  navigator.clipboard.writeText(t).then(() => {
+    alert('Prompt copied!');
+  }, () => {
+    // fallback if clipboard API fails
+    const ta = document.getElementById('promptOutput');
+    ta.select();
+    document.execCommand('copy');
+    alert('Prompt copied (fallback)');
+  });
 }
 
-function downloadPrompt(){
+/* Download prompt as text */
+function downloadPrompt() {
   const text = document.getElementById('promptOutput').value;
-  if(!text){ alert('Generate a prompt first'); return; }
+  if (!text) { alert('Generate a prompt first'); return; }
   const blob = new Blob([text], {type:'text/plain'});
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'chibistyler_prompt.txt';
-  a.click();
-}
-
-document.getElementById('generateBtn').addEventListener('click', generatePrompt);
-document.getElementById('copyBtn').addEventListener('click', copyPrompt);
-document.getElementById('downloadBtn').addEventListener('click', downloadPrompt);
-</script>
-
-</body>
-</html>
+  const a = document
